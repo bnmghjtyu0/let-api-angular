@@ -13,9 +13,9 @@ export class MovieService {
 
   constructor(private http: HttpClient) {}
 
-  getMovies() {
+  getMovies(currentPage: number) {
     return this.http.get<any>(
-      'https://api.themoviedb.org/3/movie/now_playing?api_key=23785b1559bb39249c40d56934f80e6c'
+      `https://api.themoviedb.org/3/movie/now_playing?api_key=23785b1559bb39249c40d56934f80e6c&page=${currentPage}`
     );
   }
 

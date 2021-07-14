@@ -13,13 +13,14 @@ export class MoviesComponent implements OnInit {
   constructor(private movieService: MovieService, public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.getMovies();
+    this.getMovies(this.currentPage);
   }
 
   movies = MOVIES;
 
-  getMovies() {
-    this.movieService.getMovies().subscribe((val) => {
+  currentPage = 1;
+  getMovies(page: number) {
+    this.movieService.getMovies(page).subscribe((val) => {
       console.log(val);
       return (this.movies = val.results);
     });
@@ -31,6 +32,13 @@ export class MoviesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  loadMore() {
+    this.movieService.getMovies(this.currentPage += 1).subscribe((val) => {
+      console.log(val);
+      return (this.movies = [...this.movies, ...val.results]);
     });
   }
 }
