@@ -8,9 +8,33 @@ import { MoviesComponent } from './movies/movies.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MovieDialogComponent } from './movie-dialog/movie-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+
+import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+
+@Pipe({ name: 'safe' })
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) {}
+  transform(url: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+}
+
 @NgModule({
-  declarations: [AppComponent, MovieDetailComponent, MoviesComponent, MovieDialogComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule,MatDialogModule],
+  declarations: [
+    AppComponent,
+    MovieDetailComponent,
+    MoviesComponent,
+    MovieDialogComponent,
+    SafePipe,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

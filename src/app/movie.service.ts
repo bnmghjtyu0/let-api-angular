@@ -18,6 +18,11 @@ export class MovieService {
       'https://api.themoviedb.org/3/movie/now_playing?api_key=23785b1559bb39249c40d56934f80e6c'
     );
   }
+
+  getYoutubeSearch(q: string) {
+    const url = `https://www.googleapis.com/youtube/v3/search?part=id%2Csnippet&q=${q}&key=AIzaSyBnGZCvyS4VK_syT1449aCpcHXunSq3V2k`;
+    return this.http.get<any>(url);
+  }
   getMovieDetail(id: number) {
     return this.http.get<any>(
       `https://api.themoviedb.org/3/movie/${id}?api_key=23785b1559bb39249c40d56934f80e6c`

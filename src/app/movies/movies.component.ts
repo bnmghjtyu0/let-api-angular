@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../movie.service';
 import { MOVIES } from '../mock-movies';
+import { Movie } from '../movie';
 import { MatDialog } from '@angular/material/dialog';
 import { MovieDialogComponent } from '../movie-dialog/movie-dialog.component';
 @Component({
@@ -23,8 +24,10 @@ export class MoviesComponent implements OnInit {
       return (this.movies = val.results);
     });
   }
-  openDialog() {
-    const dialogRef = this.dialog.open(MovieDialogComponent);
+  openDialog(movie: Movie) {
+    const dialogRef = this.dialog.open(MovieDialogComponent, {
+      data: movie,
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
