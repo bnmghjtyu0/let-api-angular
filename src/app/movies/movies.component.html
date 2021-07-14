@@ -1,4 +1,5 @@
 <div class="container">
+  <button mat-button (click)="openDialog()">Open dialog</button>
   <div *ngIf="movies" class="movie-list row">
     <div *ngFor="let movie of movies" class="col-sm-6 col-md-4 mb-4">
       <div class="movie-list-card">

@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../movie.service';
 import { MOVIES } from '../mock-movies';
-
+import { MatDialog } from '@angular/material/dialog';
+import { MovieDialogComponent } from '../movie-dialog/movie-dialog.component';
 @Component({
   selector: 'app-movies',
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.scss'],
 })
 export class MoviesComponent implements OnInit {
-  constructor(private movieService: MovieService) {}
+  constructor(private movieService: MovieService, public dialog: MatDialog) {}
 
   ngOnInit() {
     this.getMovies();
@@ -20,6 +21,13 @@ export class MoviesComponent implements OnInit {
     this.movieService.getMovies().subscribe((val) => {
       console.log(val);
       return (this.movies = val.results);
+    });
+  }
+  openDialog() {
+    const dialogRef = this.dialog.open(MovieDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 }
