@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MovieService } from './movie.service';
+import { MOVIES } from './mock-movies';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,13 +14,11 @@ export class AppComponent {
     this.getMovies();
   }
 
-  movies = [
-    { title: '', adult: '', overview: '', popularity: '', release_date: '' },
-  ];
+  movies = MOVIES;
 
   getMovies() {
     this.movieService.getMovies().subscribe((val) => {
-      // console.log(val);
+      console.log(val);
       return (this.movies = val.results);
     });
   }

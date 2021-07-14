@@ -1,13 +1,25 @@
-<div *ngIf="movies" className="movie-list">
-  <li *ngFor="let movie of movies" className="movie-list-card">
-    <div className="movie-list-card-content">
-      <div className="movie-list-card-content">
-        <div className="title">
+<div *ngIf="movies" class="movie-list">
+  <li *ngFor="let movie of movies" class="movie-list-card">
+    <div
+      class="movie-list-card-img"
+      [ngStyle]="{
+        'background-image':
+          'url(https://image.tmdb.org/t/p/w500/' + movie.poster_path + ')'
+      }"
+      style="
+        background-size: cover;
+        background-position: center;
+        background-repeat: repeat-x;
+      "
+    ></div>
+    <div class="movie-list-card-content">
+      <div class="movie-list-card-content">
+        <div class="title">
           {{ movie.title }}
         </div>
-        <div className="date">{{ movie.release_date }}</div>
-        <div className="popu">{{ movie.popularity }}</div>
-        <div className="content">{{ movie.overview }}</div>
+        <div class="date">{{ movie.release_date }}</div>
+        <div class="popu">{{ movie.popularity }}</div>
+        <div class="content">{{ movie.overview }}</div>
       </div>
     </div>
   </li>
