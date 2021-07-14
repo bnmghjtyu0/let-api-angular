@@ -14,3 +14,13 @@ export interface Movie {
   vote_average: number;
   vote_count: number;
 }
+export interface MovieDetail {
+  homepage: string;
+  id: number;
+  imdb_id: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+}

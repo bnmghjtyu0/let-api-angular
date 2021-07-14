@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="movie-list-card">
+      <div
+        class="movie-list-card-img"
+        [ngStyle]="{
+          'background-image':
+            'url(https://image.tmdb.org/t/p/w500/' +
+            movieDetail.poster_path +
+            ')'
+        }"
+        style="
+          background-size: cover;
+          background-position: center;
+          background-repeat: repeat-x;
+        "
+      ></div>
+      <p>popularity: {{ movieDetail.popularity }}</p>
+
+      <button (click)="goBack()">back</button>
+    </div>
+  </div>
+</div>
