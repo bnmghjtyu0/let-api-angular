@@ -10,6 +10,17 @@ export class AppComponent {
   title = 'let-api-angular';
 
   ngOnInit() {
-    this.movieService.getMovies();
+    this.getMovies();
+  }
+
+  movies = [
+    { title: '', adult: '', overview: '', popularity: '', release_date: '' },
+  ];
+
+  getMovies() {
+    this.movieService.getMovies().subscribe((val) => {
+      // console.log(val);
+      return (this.movies = val.results);
+    });
   }
 }

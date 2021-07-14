@@ -1,10 +1,14 @@
-<div className="movie-list">
-    <li className="movie-list-card">
+<div *ngIf="movies" className="movie-list">
+  <li *ngFor="let movie of movies" className="movie-list-card">
+    <div className="movie-list-card-content">
       <div className="movie-list-card-content">
-        <div className="title">標題</div>
-        <div className="date">000</div>
-        <!-- <div className="popu">{post.popularity}</div> -->
-        <!-- <div className="content">{post.overview}</div> -->
+        <div className="title">
+          {{ movie.title }}
+        </div>
+        <div className="date">{{ movie.release_date }}</div>
+        <div className="popu">{{ movie.popularity }}</div>
+        <div className="content">{{ movie.overview }}</div>
       </div>
-    </li>
+    </div>
+  </li>
 </div>
