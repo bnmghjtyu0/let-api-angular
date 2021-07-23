@@ -23,8 +23,8 @@
       />
     </ng-template>
   </div>
-  <button (click)="handleEdit(todo)" [hidden]="todo.editing">edit</button>
-  <button (click)="handleDone(todo)" [hidden]="!todo.editing">確定</button>
-  <button (click)="handleCancel(todo)" [hidden]="!todo.editing">取消</button>
-  <button class="remove-item" (click)="handleDelete(todo.id)">刪除</button>
+  <button (click)="todoService.editTodo(todo)" [hidden]="todo.editing">edit</button>
+  <button (click)="todoService.doneEdit(todo)" [hidden]="!todo.editing">確定</button>
+  <button (click)="todoService.cancelEdit(todo)" [hidden]="!todo.editing">取消</button>
+  <button class="remove-item" (click)="todoService.deleteTodo(todo.id)">刪除</button>
 </div>

@@ -6,39 +6,43 @@
   (keyup.enter)="addTodo()"
 />
 <todo-item
-  *ngFor="let todo of todosFiltered()"
+  *ngFor="let todo of todoService.todosFiltered()"
   [todo]="todo"
-  (onDelete)="deleteTodo($event)"
-  (onDone)="doneEdit($event)"
-  (onCancel)="cancelEdit($event)"
-  (onEdit)="editTodo($event)"
 ></todo-item>
 
 <div class="infobox">
   <label for="checkall">check all</label>
-  <input id="checkall" type="checkbox" (change)="checkAllTodos()" />
-  {{ remaining() }} items left
+  <input id="checkall" type="checkbox" (change)="todoService.checkAllTodos()" />
+  {{ todoService.remaining() }} items left
 </div>
 
 <div>
   <button
-    [ngClass]="{ active: filter === 'all' }"
-    (click)="filter = 'all'"
-    [ngStyle]="filter === 'all' ? { 'background-color': '#78e0e1' } : {}"
+    [ngClass]="{ active: todoService.filter === 'all' }"
+    (click)="todoService.filter = 'all'"
+    [ngStyle]="
+      todoService.filter === 'all' ? { 'background-color': '#78e0e1' } : {}
+    "
   >
     ALL
   </button>
   <button
-    [ngClass]="{ active: filter === 'active' }"
-    (click)="filter = 'active'"
-    [ngStyle]="filter === 'active' ? { 'background-color': '#78e0e1' } : {}"
+    [ngClass]="{ active: todoService.filter === 'active' }"
+    (click)="todoService.filter = 'active'"
+    [ngStyle]="
+      todoService.filter === 'active' ? { 'background-color': '#78e0e1' } : {}
+    "
   >
     Active
   </button>
   <button
-    [ngClass]="{ active: filter === 'completed' }"
-    (click)="filter = 'completed'"
-    [ngStyle]="filter === 'completed' ? { 'background-color': '#78e0e1' } : {}"
+    [ngClass]="{ active: todoService.filter === 'completed' }"
+    (click)="todoService.filter = 'completed'"
+    [ngStyle]="
+      todoService.filter === 'completed'
+        ? { 'background-color': '#78e0e1' }
+        : {}
+    "
   >
     Completed
   </button>
