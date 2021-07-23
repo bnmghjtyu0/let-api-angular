@@ -22,6 +22,7 @@ export class TodoListComponent implements OnInit, AfterViewInit {
   todoTitle: string = '';
   idFor: number = 4;
   beforeEditCache: string = '';
+  filter = 'all';
   constructor() {}
 
   ngOnInit(): void {
@@ -103,5 +104,22 @@ export class TodoListComponent implements OnInit, AfterViewInit {
 
   remaining(): number {
     return this.todos.filter((todo) => !todo.completed).length;
+  }
+
+  checkAllTodos(): void {
+    console.log('checkAllTodos')
+    this.todos.forEach(
+      (todo) => (todo.completed =!todo.completed)
+    );
+  }
+  todosFiltered(): Todo[] {
+    if (this.filter === 'all') {
+      return this.todos;
+    } else if (this.filter === 'active') {
+      return this.todos.filter((todo) => !todo.completed);
+    } else if (this.filter === 'completed') {
+      return this.todos.filter((todo) => todo.completed);
+    }
+    return this.todos;
   }
 }

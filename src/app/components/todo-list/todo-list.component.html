@@ -6,7 +6,7 @@
   (keyup.enter)="addTodo()"
 />
 
-<div class="todo-item" *ngFor="let todo of todos">
+<div class="todo-item" *ngFor="let todo of todosFiltered()">
   <div class="todo-item-left">
     <input
       id="checkbox{{ todo.id }}"
@@ -33,15 +33,37 @@
     </ng-template>
   </div>
   <button (click)="editTodo(todo)" [hidden]="todo.editing">edit</button>
-
-    <button (click)="doneEdit(todo)" [hidden]="!todo.editing">確定</button>
-    <button (click)="cancelEdit(todo)" [hidden]="!todo.editing">取消</button>
+  <button (click)="doneEdit(todo)" [hidden]="!todo.editing">確定</button>
+  <button (click)="cancelEdit(todo)" [hidden]="!todo.editing">取消</button>
   <div class="remove-item" (click)="deleteTodo(todo.id)">&times</div>
 </div>
 
-
 <div class="infobox">
-  <label>check all</label>
-  <input type="checkbox" />
-  {{remaining()}} items left
+  <label for="checkall">check all</label>
+  <input id="checkall" type="checkbox" (change)="checkAllTodos()" />
+  {{ remaining() }} items left
+</div>
+
+<div>
+  <button
+    [ngClass]="{ active: filter === 'all' }"
+    (click)="filter = 'all'"
+    [ngStyle]="filter === 'all' ? { 'background-color': '#78e0e1' } : {}"
+  >
+    ALL
+  </button>
+  <button
+    [ngClass]="{ active: filter === 'active' }"
+    (click)="filter = 'active'"
+    [ngStyle]="filter === 'active' ? { 'background-color': '#78e0e1' } : {}"
+  >
+    Active
+  </button>
+  <button
+    [ngClass]="{ active: filter === 'completed' }"
+    (click)="filter = 'completed'"
+    [ngStyle]="filter === 'completed' ? { 'background-color': '#78e0e1' } : {}"
+  >
+    Completed
+  </button>
 </div>
