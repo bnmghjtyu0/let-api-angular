@@ -1,1 +1,30 @@
-<p>todo-item works!</p>
+<div class="todo-item">
+  <div class="todo-item-left">
+    <input
+      id="checkbox{{ todo.id }}"
+      type="checkbox"
+      [(ngModel)]="todo.completed"
+    />
+    <label
+      for="checkbox{{ todo.id }}"
+      *ngIf="!todo.editing; else editingTodo"
+      class="todo-item-label"
+      [ngClass]="{ completed: todo.completed }"
+    >
+      {{ todo.title }}
+    </label>
+    <ng-template #editingTodo>
+      <input
+        #para
+        type="text"
+        class="todo-item-edit"
+        [(ngModel)]="todo.title"
+        autofocus
+      />
+    </ng-template>
+  </div>
+  <button (click)="handleEdit(todo)" [hidden]="todo.editing">edit</button>
+  <button (click)="handleDone(todo)" [hidden]="!todo.editing">確定</button>
+  <button (click)="handleCancel(todo)" [hidden]="!todo.editing">取消</button>
+  <button class="remove-item" (click)="handleDelete(todo.id)">刪除</button>
+</div>

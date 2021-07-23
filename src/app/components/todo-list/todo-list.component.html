@@ -5,38 +5,14 @@
   [(ngModel)]="todoTitle"
   (keyup.enter)="addTodo()"
 />
-
-<div class="todo-item" *ngFor="let todo of todosFiltered()">
-  <div class="todo-item-left">
-    <input
-      id="checkbox{{ todo.id }}"
-      type="checkbox"
-      [(ngModel)]="todo.completed"
-    />
-    <label
-      for="checkbox{{ todo.id }}"
-      *ngIf="!todo.editing; else editingTodo"
-      class="todo-item-label"
-      [ngClass]="{ completed: todo.completed }"
-    >
-      {{ todo.title }}
-    </label>
-    <ng-template #editingTodo>
-      <input
-        #para
-        type="text"
-        class="todo-item-edit"
-        [(ngModel)]="todo.title"
-        (keyup.enter)="doneEdit(todo)"
-        autofocus
-      />
-    </ng-template>
-  </div>
-  <button (click)="editTodo(todo)" [hidden]="todo.editing">edit</button>
-  <button (click)="doneEdit(todo)" [hidden]="!todo.editing">確定</button>
-  <button (click)="cancelEdit(todo)" [hidden]="!todo.editing">取消</button>
-  <div class="remove-item" (click)="deleteTodo(todo.id)">&times</div>
-</div>
+<todo-item
+  *ngFor="let todo of todosFiltered()"
+  [todo]="todo"
+  (onDelete)="deleteTodo($event)"
+  (onDone)="doneEdit($event)"
+  (onCancel)="cancelEdit($event)"
+  (onEdit)="editTodo($event)"
+></todo-item>
 
 <div class="infobox">
   <label for="checkall">check all</label>

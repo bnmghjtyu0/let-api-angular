@@ -64,6 +64,7 @@ export class TodoListComponent implements OnInit, AfterViewInit {
   }
 
   deleteTodo(id: number): void {
+    console.log(id)
     this.todos = this.todos.filter((todo) => todo.id !== id);
   }
 
