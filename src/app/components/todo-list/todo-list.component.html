@@ -1,0 +1,47 @@
+<input
+  type="text"
+  class="todo-input"
+  placeholder="What needs to be done"
+  [(ngModel)]="todoTitle"
+  (keyup.enter)="addTodo()"
+/>
+
+<div class="todo-item" *ngFor="let todo of todos">
+  <div class="todo-item-left">
+    <input
+      id="checkbox{{ todo.id }}"
+      type="checkbox"
+      [(ngModel)]="todo.completed"
+    />
+    <label
+      for="checkbox{{ todo.id }}"
+      *ngIf="!todo.editing; else editingTodo"
+      class="todo-item-label"
+      [ngClass]="{ completed: todo.completed }"
+    >
+      {{ todo.title }}
+    </label>
+    <ng-template #editingTodo>
+      <input
+        #para
+        type="text"
+        class="todo-item-edit"
+        [(ngModel)]="todo.title"
+        (keyup.enter)="doneEdit(todo)"
+        autofocus
+      />
+    </ng-template>
+  </div>
+  <button (click)="editTodo(todo)" [hidden]="todo.editing">edit</button>
+
+    <button (click)="doneEdit(todo)" [hidden]="!todo.editing">確定</button>
+    <button (click)="cancelEdit(todo)" [hidden]="!todo.editing">取消</button>
+  <div class="remove-item" (click)="deleteTodo(todo.id)">&times</div>
+</div>
+
+
+<div class="infobox">
+  <label>check all</label>
+  <input type="checkbox" />
+  {{remaining()}} items left
+</div>
