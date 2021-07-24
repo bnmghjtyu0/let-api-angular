@@ -1,30 +1,131 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+<div class="container">
+  <form
+    [formGroup]="profileForm"
+    (ngSubmit)="onSubmit()"
+    class="form-group"
+    novalidate
+  >
+    <div class="mb-3">
+      <label for="username" class="form-label">帳號</label>
+      <input
+        id="username"
+        type="text"
+        formControlName="userName"
+        class="form-control"
+      />
 
-  <label for="first-name">First Name: </label>
-  <input id="first-name" type="text" formControlName="firstName">
+      <!-- get userName() 回傳這個參數Ï -->
+      <div *ngIf="userName.invalid && (userName.dirty || userName.touched)">
+        <div
+          [hidden]="!userName.errors?.required"
+          class="form-text text-danger"
+        >
+          請輸入帳號
+        </div>
+        <div
+          [hidden]="!userName.errors?.minlength"
+          class="form-text text-danger"
+        >
+          長度需要大魚 5
+        </div>
+      </div>
 
-  <label for="last-name">Last Name: </label>
-  <input id="last-name" type="text" formControlName="lastName">
-  <p>Complete the form to enable button.</p>
+      <!-- <div *ngIf="profileForm.controls['userName'].invalid">
+        <div *ngIf="profileForm.controls['userName'].errors?.required">
+          <div class="form-text text-danger">請輸入帳號</div>
+        </div>
+        <div *ngIf="profileForm.controls['userName'].errors?.minlength">
+          <div class="form-text text-danger"> 長度需要大魚 5</div>
+        </div>
+      </div> -->
+    </div>
 
-  <div formGroupName="address">
-    <h2>Address</h2>
+    <div class="mb-3">
+      <label for="nickname" class="form-label">暱稱</label>
+      <input
+        id="nickname"
+        type="text"
+        formControlName="nickName"
+        class="form-control"
+      />
+      <div *ngIf="profileForm.controls['nickName'].invalid">
+        <div class="form-text text-danger">請輸入暱稱</div>
+      </div>
+    </div>
 
-    <label for="street">Street: </label>
-    <input id="street" type="text" formControlName="street">
+    <div class="mb-3">
+      <label>Country : </label>
+      <!-- 2. Call onCountryChange() function on Drop Down value Change -->
+      <select
+        id="country"
+        formControlName="country"
+        (change)="onCountryChange()"
+      >
+        <option [ngValue]="c.id" *ngFor="let c of countryList">
+          {{ c.name }}
+        </option>
+      </select>
+    </div>
 
-    <label for="city">City: </label>
-    <input id="city" type="text" formControlName="city">
+    <div class="mb-3">
+      <label>County : </label>
+      <input type="text" id="county" formControlName="county" />
+      <!-- 3. Show if County Field has Required validator or not -->
+      <span> Required : {{ county.hasError("required") }}</span>
+    </div>
 
-    <label for="state">State: </label>
-    <input id="state" type="text" formControlName="state">
+    <div formGroupName="passwordGroup">
+      <div class="mb-3">
+        <label for="password" class="form-label">密碼</label>
+        <input
+          id="password"
+          type="text"
+          formControlName="password"
+          class="form-control"
+        />
+      </div>
 
-    <label for="zip">Zip Code: </label>
-    <input id="zip" type="text" formControlName="zip">
-  </div>
-  <button type="submit" [disabled]="!profileForm.valid">Submit</button>
-</form>
+      <div class="mb-3">
+        <label for="password-confirm" class="form-label">確認密碼</label>
+        <input
+          id="password-confirm"
+          type="text"
+          formControlName="passwordConfirm"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <!-- <button
+    type="submit"
+    class="btn btn-primary"
+    [ngClass]="!profileForm.valid ? 'btn-light' : ''"
+    [disabled]="!profileForm.valid"
+  >
+    Submit
+  </button> -->
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-light" (click)="resetFrom()">
+      reset
+    </button>
+  </form>
 
+  <p>Form Status: {{ profileForm }}</p>
+  <!-- <button (click)="updateProfile()">Update Profile</button> -->
+</div>
 
-<p>Form Status: {{ profileForm.status }}</p>
-<button (click)="updateProfile()">Update Profile</button>
+<ul>
+  <li>Is my form valid? {{ profileForm.valid }}</li>
+  <li>
+    <pre>
+My email field errors:
+{{ profileForm.controls.userName.errors | json }}</pre
+    >
+  </li>
+  <li>
+    <pre>
+My form errors:
+{{ profileForm.errors | json }}</pre
+    >
+  </li>
+  <li>Form value: {{ profileForm.value | json }}</li>
+</ul>
