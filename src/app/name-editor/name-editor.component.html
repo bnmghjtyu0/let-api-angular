@@ -54,7 +54,7 @@
     </div>
 
     <div class="mb-3">
-      <label>Country : </label>
+      <label>選擇卡片</label>
       <!-- 2. Call onCountryChange() function on Drop Down value Change -->
       <select
         id="country"
@@ -67,11 +67,14 @@
       </select>
     </div>
 
-    <div class="mb-3">
-      <label>County : </label>
-      <input type="text" id="county" formControlName="county" />
-      <!-- 3. Show if County Field has Required validator or not -->
-      <span> Required : {{ county.hasError("required") }}</span>
+    <div [hidden]="country.value === 1">
+      <div class="mb-3">
+        <label>卡片號碼</label>
+        <input type="text" id="county" formControlName="county" />
+        <!-- 3. Show if County Field has Required validator or not -->
+
+        <div class="form-text text-danger">請輸入卡片號碼</div>
+      </div>
     </div>
 
     <div formGroupName="passwordGroup">
@@ -83,6 +86,12 @@
           formControlName="password"
           class="form-control"
         />
+        <div
+          [hidden]="!password?.errors?.required"
+          class="form-text text-danger"
+        >
+          請輸入密碼
+        </div>
       </div>
 
       <div class="mb-3">
@@ -93,6 +102,7 @@
           formControlName="passwordConfirm"
           class="form-control"
         />
+
       </div>
     </div>
     <!-- <button
@@ -104,13 +114,10 @@
     Submit
   </button> -->
     <button type="submit" class="btn btn-primary">Submit</button>
-    <button type="submit" class="btn btn-light" (click)="resetFrom()">
+    <button type="reset" class="btn btn-light" (click)="resetFrom()">
       reset
     </button>
   </form>
-
-  <p>Form Status: {{ profileForm }}</p>
-  <!-- <button (click)="updateProfile()">Update Profile</button> -->
 </div>
 
 <ul>

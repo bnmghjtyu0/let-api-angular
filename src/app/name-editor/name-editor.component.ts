@@ -13,8 +13,8 @@ import {
 })
 export class NameEditorComponent implements OnInit {
   countryList: { id: number; name: string }[] = [
-    { id: 1, name: 'Los Angeles' },
-    { id: 2, name: 'San Francisco' },
+    { id: 1, name: '無' },
+    { id: 2, name: '身分證' },
   ];
   profileForm!: FormGroup;
   registerForm() {
@@ -28,11 +28,11 @@ export class NameEditorComponent implements OnInit {
         ],
       ],
       nickName: [''],
-      country: [1, Validators.required],
+      country: [1, [Validators.required]],
       county: [''],
       passwordGroup: this.fb.group(
         {
-          password: [''],
+          password: ['', Validators.required],
           passwordConfirm: [''],
         },
         { validator: this.passwordMatchValidator }
@@ -43,6 +43,12 @@ export class NameEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm();
+
+    // 監聽
+    this.profileForm.controls['userName'].valueChanges.subscribe((x) => {
+      console.log('userName value changed');
+      console.log(x);
+    });
   }
   get userName() {
     return this.profileForm.controls['userName'];
@@ -52,6 +58,12 @@ export class NameEditorComponent implements OnInit {
   }
   get county() {
     return this.profileForm.controls['county'];
+  }
+  get password() {
+    return this.profileForm.controls.passwordGroup.get('password')
+  }
+  get passwordConfirm() {
+    return this.profileForm.controls.passwordGroup.get('passwordConfirm')
   }
 
   passwordMatchValidator(frm: FormGroup) {
@@ -74,9 +86,6 @@ export class NameEditorComponent implements OnInit {
     this.profileForm.patchValue({
       userName: 'richard',
       nickName: 'richard',
-      // password: {
-      //   password: '123 Drew Street',
-      // },
     });
   }
 
@@ -87,5 +96,24 @@ export class NameEditorComponent implements OnInit {
     // TODO: Use EventEmitter with form value
     console.log(this.profileForm.status);
     console.warn(this.profileForm.value);
+    if (this.profileForm.valid) {
+      console.log('form submitted');
+    } else {
+      this.validateAllFormFields(this.profileForm); //{7}
+    }
+  }
+  validateAllFormFields(formGroup: FormGroup) {
+    //{1}
+    Object.keys(formGroup.controls).forEach((field) => {
+      //{2}
+      const control = formGroup.controls[field]; //{3}
+      if (control instanceof FormControl) {
+        //{4}
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        //{5}
+        this.validateAllFormFields(control); //{6}
+      }
+    });
   }
 }
