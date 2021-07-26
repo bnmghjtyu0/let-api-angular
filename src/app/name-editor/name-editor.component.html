@@ -1,36 +1,31 @@
 <div class="container">
-  <form
-    [formGroup]="profileForm"
-    (ngSubmit)="onSubmit()"
-    class="form-group"
-    novalidate
-  >
-    <div class="mb-3">
-      <label for="username" class="form-label">帳號</label>
-      <input
-        id="username"
-        type="text"
-        formControlName="userName"
-        class="form-control"
-      />
+  <div class="row col-md-6 offset-md-3">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="form-group">
+      <div class="mb-3">
+        <label for="username" class="form-label">帳號</label>
+        <input
+          id="username"
+          type="text"
+          formControlName="userName"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && userName.errors }"
+        />
 
-      <!-- get userName() 回傳這個參數Ï -->
-      <div *ngIf="userName.invalid && (userName.dirty || userName.touched)">
+        <!-- get userName() 回傳這個參數Ï -->
         <div
-          [hidden]="!userName.errors?.required"
+          *ngIf="submitted && userName.errors?.required"
           class="form-text text-danger"
         >
           請輸入帳號
         </div>
         <div
-          [hidden]="!userName.errors?.minlength"
+          *ngIf="submitted && userName.errors?.minlength"
           class="form-text text-danger"
         >
           長度需要大魚 5
         </div>
-      </div>
 
-      <!-- <div *ngIf="profileForm.controls['userName'].invalid">
+        <!-- <div *ngIf="profileForm.controls['userName'].invalid">
         <div *ngIf="profileForm.controls['userName'].errors?.required">
           <div class="form-text text-danger">請輸入帳號</div>
         </div>
@@ -38,74 +33,175 @@
           <div class="form-text text-danger"> 長度需要大魚 5</div>
         </div>
       </div> -->
-    </div>
-
-    <div class="mb-3">
-      <label for="nickname" class="form-label">暱稱</label>
-      <input
-        id="nickname"
-        type="text"
-        formControlName="nickName"
-        class="form-control"
-      />
-      <div *ngIf="profileForm.controls['nickName'].invalid">
-        <div class="form-text text-danger">請輸入暱稱</div>
       </div>
-    </div>
 
-    <div class="mb-3">
-      <label>選擇卡片</label>
-      <!-- 2. Call onCountryChange() function on Drop Down value Change -->
-      <select
-        id="country"
-        formControlName="country"
-        (change)="onCountryChange()"
-      >
-        <option [ngValue]="c.id" *ngFor="let c of countryList">
-          {{ c.name }}
-        </option>
-      </select>
-    </div>
-
-    <div [hidden]="country.value === 1">
       <div class="mb-3">
-        <label>卡片號碼</label>
-        <input type="text" id="county" formControlName="county" />
-        <!-- 3. Show if County Field has Required validator or not -->
-
-        <div class="form-text text-danger">請輸入卡片號碼</div>
-      </div>
-    </div>
-
-    <div formGroupName="passwordGroup">
-      <div class="mb-3">
-        <label for="password" class="form-label">密碼</label>
+        <label for="nickname" class="form-label">暱稱</label>
         <input
-          id="password"
+          id="nickname"
           type="text"
-          formControlName="password"
+          formControlName="nickName"
           class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && form.nickName.errors }"
         />
         <div
-          [hidden]="!password?.errors?.required"
+          *ngIf="submitted && form.nickName.errors?.required"
           class="form-text text-danger"
         >
-          請輸入密碼
+          請輸入暱稱
         </div>
       </div>
 
       <div class="mb-3">
-        <label for="password-confirm" class="form-label">確認密碼</label>
-        <input
-          id="password-confirm"
-          type="text"
-          formControlName="passwordConfirm"
-          class="form-control"
-        />
-
+        <label class="form-label">性別</label>
+        <div>
+          <div class="form-check form-check-inline">
+            <input
+              id="girl"
+              class="form-check-input"
+              type="radio"
+              value="girl"
+              name="sex"
+              formControlName="sex"
+            />
+            <label for="girl" class="form-check-label" name="sex">女生</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              id="boy"
+              class="form-check-input"
+              type="radio"
+              value="boy"
+              name="sex"
+              formControlName="sex"
+            />
+            <label for="boy" class="form-check-label" name="sex">男生</label>
+          </div>
+        </div>
       </div>
-    </div>
-    <!-- <button
+
+      <div class="mb-3">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label class="col-form-label">喜歡的球員</label>
+          </div>
+          <div class="col-auto p-0">
+            <div
+              *ngIf="submitted && favoriteSport.errors?.minimumOne"
+              class="form-text text-danger"
+            >
+              <div class="form-text text-danger">至少選一個</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <!-- <div class="form-check form-check-inline">
+            <input
+              id="checkedAll"
+              class="form-check-input"
+              type="checkbox"
+              value="全選"
+              (change)="onCheckboxAllChange($event)"
+            />
+            <label for="checkedAll" class="form-check-label">全選</label>
+          </div> -->
+          <div
+            class="form-check form-check-inline"
+            *ngFor="let sport of favoriteSportList; let i = index"
+          >
+            <input
+              id="sport-{{ i }}"
+              class="form-check-input"
+              type="checkbox"
+              [value]="sport.value"
+              (change)="onCheckboxChange($event)"
+            />
+            <label for="sport-{{ i }}" class="form-check-label">{{
+              sport.name
+            }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">選擇卡片</label>
+        <!-- 2. Call onCountryChange() function on Drop Down value Change -->
+        <div class="row">
+          <div class="col-auto">
+            <select
+              id="country"
+              class="form-control"
+              formControlName="country"
+              (change)="onCountryChange()"
+            >
+              <option [ngValue]="c.id" *ngFor="let c of countryList">
+                {{ c.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-auto" [hidden]="country.value === 1">
+            <input
+              type="text"
+              id="county"
+              formControlName="county"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && county.errors }"
+            />
+            <!-- 3. Show if County Field has Required validator or not -->
+
+            <div
+              *ngIf="submitted && form.county.errors?.required"
+              class="form-text text-danger"
+            >
+              <div class="form-text text-danger">請輸入卡片號碼</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div formGroupName="passwordGroup">
+        <div class="mb-3">
+          <label for="password" class="form-label">密碼</label>
+          <input
+            id="password"
+            type="text"
+            formControlName="password"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && password?.errors }"
+          />
+
+          <div
+            *ngIf="submitted && password?.errors?.required"
+            class="form-text text-danger"
+          >
+            請輸入密碼
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="password-confirm" class="form-label">確認密碼</label>
+          <input
+            id="password-confirm"
+            type="text"
+            formControlName="passwordConfirm"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && passwordConfirm?.errors }"
+          />
+          <div
+            *ngIf="submitted && passwordConfirm?.errors?.required"
+            class="form-text text-danger"
+          >
+            密碼不一致
+          </div>
+          <div
+            *ngIf="submitted && passwordConfirm?.errors?.mustMatch"
+            class="form-text text-danger"
+          >
+            密碼不一致
+          </div>
+        </div>
+      </div>
+      <!-- <button
     type="submit"
     class="btn btn-primary"
     [ngClass]="!profileForm.valid ? 'btn-light' : ''"
@@ -113,26 +209,22 @@
   >
     Submit
   </button> -->
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <button type="reset" class="btn btn-light" (click)="resetFrom()">
-      reset
-    </button>
-  </form>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="reset" class="btn btn-light" (click)="resetFrom()">
+        reset
+      </button>
+    </form>
+  </div>
 </div>
 
 <ul>
   <li>Is my form valid? {{ profileForm.valid }}</li>
   <li>
+    My password field errors:
     <pre>
-My email field errors:
-{{ profileForm.controls.userName.errors | json }}</pre
-    >
+       {{ passwordConfirm?.errors | json }}
+    </pre>
   </li>
-  <li>
-    <pre>
-My form errors:
-{{ profileForm.errors | json }}</pre
-    >
-  </li>
+
   <li>Form value: {{ profileForm.value | json }}</li>
 </ul>
