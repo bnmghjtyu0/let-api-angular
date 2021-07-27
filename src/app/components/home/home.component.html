@@ -1,0 +1,18 @@
+<p>home works!</p>
+
+<ng-container *ngIf="apiData">
+  <div class="container">
+    <div class="row">
+      <div *ngFor="let item of apiData" class="col-3">
+        {{ item.who }}
+        <img
+          [src]="item.url"
+          alt="image"
+          (error)="setDefaultPic(item)"
+          class="img-fluid"
+          style="width:100%"
+        />
+      </div>
+    </div>
+  </div>
+</ng-container>
