@@ -1,2 +1,5 @@
-<app-base-form></app-base-form>
 <router-outlet></router-outlet>
+<app-base-form></app-base-form>
+<div *ngIf="this.mediaQuery === 'media-xs'">
+  <button (click)="handleClick()">123</button>
+</div>
