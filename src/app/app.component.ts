@@ -1,31 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { Logger } from './services/logger.service';
-import { MediaQueryService } from './services/media-query.service';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
+import { BreakpointObserver } from '@angular/cdk/layout';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  mediaQuery: string = '';
-  constructor(
-    private logger: Logger,
-    private mediaQueryService: MediaQueryService
-  ) {
-    this.mediaQueryService.obob.subscribe((result: any) => {
-      for (const query of Object.keys(result.breakpoints)) {
-        if (result.breakpoints[query]) {
-          // console.log(this.displayNameMap.get(query));
-          this.mediaQuery = this.mediaQueryService.displayNameMap.get(query) ?? 'Unknown';
-        }
-      }
-    });
-  }
+  @ViewChild(MatSidenav) sidenav!: MatSidenav;
+  constructor(private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {}
-
-  handleClick() {
-    this.logger.log('Getting heroes ...');
+  ngAfterViewInit() {
+    this.breakpointObserver.observe(['(max-width:767px)']).subscribe((res) => {
+      if (res.matches) {
+        this.sidenav.mode = 'over';
+        this.sidenav.close();
+      } else {
+        this.sidenav.mode = 'side';
+        this.sidenav.open();
+      }
+    });
   }
 }

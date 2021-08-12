@@ -1,3 +1,42 @@
-<div *ngIf="this.mediaQuery === 'media-xs'">
-  <button (click)="handleClick()">123</button>
-</div>
+<header [sidenav]="sidenav"></header>
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened>
+    <img
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfE5_WUtlLPvAvfTt6X-4NtXpwgzwFJg9OdZIET69PLAJqi4GMM7Wcv4yzPfvIE0JmDKo&usqp=CAU"
+      style="width: 100%"
+      alt="I'm Perry!"
+    />
+    <h4 class="name">泰瑞</h4>
+    <p class="designation">
+      代號特務P的泰瑞，是飛哥和小佛的寵物，但他們不知道泰瑞還有另一個身份─一個秘密特務，政府的動物間諜
+    </p>
+    <mat-divider></mat-divider>
+    <div class="sidenav-links">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        mat-button
+        class="menu-button"
+        (click)="sidenav.mode === 'over' && sidenav.close()"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon>home</mat-icon> Home
+      </a>
+      <a
+        routerLink="/post"
+        routerLinkActive="active"
+        mat-button
+        class="menu-button"
+        (click)="sidenav.mode === 'over' && sidenav.close()"
+      >
+        <mat-icon>person</mat-icon> post</a
+      >
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z4">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<footer></footer>
