@@ -1,23 +1,20 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ],
+        "project": ["tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
+        "eslint:recommended", // <-- 可以擺在第一位
         "plugin:@angular-eslint/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended", // <-- 一定要放在 @angular-eslint 後面
         "plugin:@angular-eslint/template/process-inline-templates",
-        "prettier"
+        "prettier" // <!-- 一定要在最後關閉 Code formatting 相關的規則
       ],
       "rules": {
         "@angular-eslint/directive-selector": [
@@ -39,13 +36,8 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended",
-        "prettier"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended", "prettier"],
       "rules": {}
     }
   ]
