@@ -11,6 +11,7 @@ import { MediaQueryService } from './services/media-query.service';
 })
 export class AppComponent implements OnInit {
   emailsDataSource = new MatTableDataSource<any>();
+  columnsToDisplay = ['user', 'title', 'created_at', 'management'];
 
   constructor(private logger: Logger, private httpClient: HttpClient) {}
 
