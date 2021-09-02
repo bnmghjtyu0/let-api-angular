@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './material-modules';
 import { A11yNavbarComponent } from './components/a11y-navbar/a11y-navbar.component';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [AppComponent, A11yNavbarComponent],
   imports: [
@@ -13,6 +14,7 @@ import { A11yNavbarComponent } from './components/a11y-navbar/a11y-navbar.compon
     AppRoutingModule,
     BrowserAnimationsModule,
     DemoMaterialModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
