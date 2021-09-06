@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Logger } from './services/logger.service';
 import { MediaQueryService } from './services/media-query.service';
-
+import { PopupDialogService } from './services/dialog/dialog.service';
 interface PeriodicElement {
   name: string;
   position: number;
@@ -32,7 +32,22 @@ export class AppComponent implements OnInit {
   dataSource = ELEMENT_DATA;
 
   mediaQuery: string = '';
-  constructor(private logger: Logger) {}
+  constructor(
+    private logger: Logger,
+    private popupDialogService: PopupDialogService
+  ) {}
 
   ngOnInit(): void {}
+
+  open(): void {
+    const dialogConfig = {
+      content: '確定刪除',
+      confirmText: '刪除',
+    };
+    this.popupDialogService.openDialog(dialogConfig).subscribe({
+      next: (result) => {
+        console.log(result);
+      },
+    });
+  }
 }
