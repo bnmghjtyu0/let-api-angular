@@ -7,19 +7,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  @ViewChild(MatSidenav) sidenav!: MatSidenav;
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor() {}
 
   ngOnInit(): void {}
-  ngAfterViewInit() {
-    this.breakpointObserver.observe(['(max-width:767px)']).subscribe((res) => {
-      if (res.matches) {
-        this.sidenav.mode = 'over';
-        this.sidenav.close();
-      } else {
-        this.sidenav.mode = 'side';
-        this.sidenav.open();
-      }
-    });
-  }
 }

@@ -6,6 +6,11 @@ import { DefaultComponent } from './layouts/default/default.component';
 
 const routes: Routes = [
   {
+    path: 'login',
+    loadChildren: () =>
+      import('./pages/login/login.module').then((m) => m.LoginModule),
+  },
+  {
     path: '',
     component: DefaultComponent,
     children: [
