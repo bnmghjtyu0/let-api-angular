@@ -23,6 +23,11 @@
 </style>
 
 <table class="table-responsive" mat-table [dataSource]="dataSource">
+  <!-- 沒資料 -->
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No data found</td>
+  </tr>
+
   <!-- 顯示標題資料列 -->
   <tr
     mat-header-row
