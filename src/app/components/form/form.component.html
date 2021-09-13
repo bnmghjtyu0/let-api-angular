@@ -8,7 +8,9 @@
     <mat-form-field appearance="fill" class="example-full-width">
       <mat-label> Last Name:</mat-label>
       <input matInput formControlName="lastName" />
-      <mat-error> 未填 </mat-error>
+      <mat-error *ngIf="errorHandling('lastName', 'required')">
+        未填
+      </mat-error>
     </mat-form-field>
     <br />
 
@@ -16,23 +18,22 @@
       <mat-label>Age:</mat-label>
       <input matInput formControlName="age" type="number" />
       <mat-error>
-        <span *ngIf="profileForm.controls.age.errors?.negativeNumber">
+        <span *ngIf="errorHandling('age', 'required')">
           Please provide a valid age
         </span>
       </mat-error>
     </mat-form-field>
     <br />
 
-    <mat-form-field>
-      <mat-label>Request room access</mat-label>
-      <mat-select formControlName="room">
+    <mat-form-field class="full-width">
+      <mat-select placeholder="rooms" formControlName="room">
         <mat-option *ngFor="let room of rooms" [value]="room">
           {{ room.text }}
         </mat-option>
       </mat-select>
       <mat-error>
-        <span *ngIf="profileForm.controls.room.errors?.negativeNumber">
-          Please provide a valid age
+        <span *ngIf="errorHandling('room', 'required')">
+         請選擇房間
         </span>
       </mat-error>
     </mat-form-field>

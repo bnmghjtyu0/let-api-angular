@@ -5,6 +5,7 @@ import {
   FormBuilder,
   FormGroup,
   AbstractControl,
+  FormControl,
 } from '@angular/forms';
 import { Room } from './form';
 
@@ -27,7 +28,7 @@ export class FormComponent implements OnInit {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         age: ['', [Validators.required, NoNegativeNumbers]],
-        room: [{}, Validators.required],
+        room: [null, Validators.required],
       },
       {
         validators: [this.roomOver18Validator.onlyAccessRoomsOver18(18)],
@@ -49,7 +50,13 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
     this.register();
   }
+  /* Handle form errors in Angular 8 */
+  public errorHandling = (control: string, error: string) => {
+    return this.profileForm.controls[control].hasError(error);
+  };
+
   onSubmit() {
+    // this.profileForm.controls.room.setValue(null);
     console.log(this.profileForm.value);
   }
 }
