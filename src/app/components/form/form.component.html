@@ -1,0 +1,57 @@
+<div class="container">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="example-form">
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label> First Name:</mat-label>
+      <input matInput formControlName="firstName" />
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label> Last Name:</mat-label>
+      <input matInput formControlName="lastName" />
+      <mat-error> 未填 </mat-error>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Age:</mat-label>
+      <input matInput formControlName="age" type="number" />
+      <mat-error>
+        <span *ngIf="profileForm.controls.age.errors?.negativeNumber">
+          Please provide a valid age
+        </span>
+      </mat-error>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field>
+      <mat-label>Request room access</mat-label>
+      <mat-select formControlName="room">
+        <mat-option *ngFor="let room of rooms" [value]="room">
+          {{ room.text }}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <span *ngIf="profileForm.controls.room.errors?.negativeNumber">
+          Please provide a valid age
+        </span>
+      </mat-error>
+    </mat-form-field>
+    <br />
+
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+    <!-- <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!profileForm.valid"
+    >
+      Submit
+    </button> -->
+
+    <mat-error>
+      <span *ngIf="profileForm.errors?.roomOnlyWith18">
+        You can not access this room being under 18
+      </span>
+    </mat-error>
+  </form>
+</div>
