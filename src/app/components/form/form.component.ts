@@ -22,12 +22,27 @@ export class FormComponent implements OnInit {
   title = 'forms-cross-field-validation';
   profileForm!: FormGroup;
 
+  get form() {
+    return this.profileForm.controls;
+  }
+
+  rooms: Room[] = [
+    { text: 'room 1', value: 'room-1' },
+    { text: 'room 2', value: 'room-2' },
+    { text: 'room 3', value: 'room-3' },
+  ];
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private roomOver18Validator: RoomOver18Validator
+  ) {}
+
   register() {
     this.profileForm = this.formBuilder.group(
       {
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        age: ['', [Validators.required, NoNegativeNumbers]],
+        firstName: [null],
+        lastName: [null],
+        age: [null],
         room: [null, Validators.required],
       },
       {
@@ -37,26 +52,71 @@ export class FormComponent implements OnInit {
     );
   }
 
-  rooms: Room[] = [
-    { text: 'room 1', value: 'room-1' },
-    { text: 'room 2', value: 'room-2' },
-    { text: 'room 3', value: 'room-3' },
-  ];
-  constructor(
-    private formBuilder: FormBuilder,
-    private roomOver18Validator: RoomOver18Validator
-  ) {}
-
   ngOnInit(): void {
     this.register();
+  }
+
+  public addValidators(form: FormGroup, validationArray: any) {
+    for (const key in form.controls) {
+      form.controls[key].setValidators(validationArray[key]);
+      form.controls[key].updateValueAndValidity();
+    }
+  }
+  public removeValidators(form: FormGroup, validationPairs: any) {
+    for (const key in form.controls) {
+      if (validationPairs.includes(key)) {
+        form.controls[key].clearValidators();
+        form.controls[key].updateValueAndValidity();
+      }
+    }
+  }
+
+  public getValues(form: FormGroup, validationArray: any) {
+    for (const key in form.controls) {
+      form.controls[key].setValidators(validationArray[key]);
+      form.controls[key].updateValueAndValidity();
+    }
   }
   /* Handle form errors in Angular 8 */
   public errorHandling = (control: string, error: string) => {
     return this.profileForm.controls[control].hasError(error);
   };
 
+  onReset() {
+    const { firstName, lastName, age, room } = this.form;
+    this.profileForm.reset();
+
+    this.removeValidators(this.profileForm, ['firstName', 'lastName', 'room']);
+  }
+  onSearch() {
+    console.log('search');
+    const { firstName, lastName, age, room } = this.form;
+    //dynamic validation
+    const validationType: any = {
+      firstName: [Validators.required],
+    };
+    this.addValidators(this.profileForm, validationType);
+  }
   onSubmit() {
-    // this.profileForm.controls.room.setValue(null);
-    console.log(this.profileForm.value);
+    this.removeValidators(this.profileForm, ['firstName', 'lastName', 'room']);
+    const validationType: any = {
+      firstName: [Validators.required],
+      lastName: [Validators.required],
+      age: [Validators.required],
+      room: [Validators.required],
+    };
+    this.addValidators(this.profileForm, validationType);
+    let firstName = this.profileForm.controls.firstName.value;
+    let lastName = this.profileForm.controls.lastName.value;
+    let age = this.profileForm.controls.age.value;
+    let room = this.profileForm.controls.room.value;
+
+    let form = {
+      firstName,
+      lastName,
+      age,
+      room,
+    };
+    console.log(form);
   }
 }
