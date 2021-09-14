@@ -86,7 +86,12 @@ export class FormComponent implements OnInit {
     const { firstName, lastName, age, room } = this.form;
     this.profileForm.reset();
 
-    this.removeValidators(this.profileForm, ['firstName', 'lastName', 'room']);
+    this.removeValidators(this.profileForm, [
+      'firstName',
+      'lastName',
+      'age',
+      'room',
+    ]);
   }
   onSearch() {
     console.log('search');
