@@ -1,73 +1,59 @@
-<style scoped="scss">
-  .table-responsive {
+<style>
+  table {
     width: 100%;
   }
-
-  th.mat-header-cell,
-  td.mat-cell {
-    text-align: center;
-    border: 1px solid #ccc;
-    padding: 0 !important;
+  td,
+  th {
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.12);
+    padding: 10px !important;
   }
-  .mat-column-user {
-    max-width: 100px;
-  }
-  /* .mat-header-cell.mat-column-user {
-    color: red;
-  }
-  .mat-cell.mat-column-user {
-    font-weight: bold;
-    text-decoration: underline dashed #000;
-    cursor: pointer;
-  }  */
 </style>
+<!-- 動態寫法 -->
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <tr mat-header-row *matHeaderRowDef="mainHeaderDef"></tr>
+  <ng-container *ngFor="let head of columns">
+    <ng-container [matColumnDef]="head.header">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        [attr.rowspan]="head.rowspan"
+        [attr.colspan]="head.colspan"
+      >
+        {{ head.headerLabel }}
+      </th>
+    </ng-container>
+    <ng-container [matColumnDef]="head.accessor" *ngIf="head.rowspan !== 1">
+      <th mat-header-cell *matHeaderCellDef [ngStyle]="{ display: 'none' }">
+        {{ head.accessor }}
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let data; let i = index"
 
-<table class="table-responsive" mat-table [dataSource]="dataSource">
-  <!-- 沒資料 -->
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="4">No data found</td>
-  </tr>
-
-  <!-- 顯示標題資料列 -->
-  <tr
-    mat-header-row
-    *matHeaderRowDef="['header-row-first-group', 'header-row-second-group']"
-  ></tr>
-  <tr mat-header-row *matHeaderRowDef="columns"></tr>
-  <!-- 顯示資料列 -->
-  <tr mat-row *matRowDef="let emailRow; columns: columns"></tr>
-
-  <!-- 定義表格的欄位及資料呈現 START-->
-  <ng-container matColumnDef="user">
-    <th mat-header-cell *matHeaderCellDef>寄件人</th>
-    <td mat-cell *matCellDef="let row">{{ row.user.login }}</td>
-  </ng-container>
-  <ng-container matColumnDef="title">
-    <th mat-header-cell *matHeaderCellDef>標題</th>
-    <td mat-cell *matCellDef="let row">{{ row.title }}</td>
-  </ng-container>
-  <ng-container matColumnDef="created_at">
-    <th mat-header-cell *matHeaderCellDef>日期</th>
-    <td mat-cell *matCellDef="let row">{{ row.created_at }}</td>
-  </ng-container>
-  <ng-container matColumnDef="management">
-    <th mat-header-cell *matHeaderCellDef>
-      <u>管理</u>
-    </th>
-    <td mat-cell *matCellDef="let row">
-      <button mat-button color="primary">回覆</button>
-      <button mat-button color="warn">刪除</button>
-    </td>
-  </ng-container>
-  <!-- 定義表格的欄位及資料呈現 END-->
-
-  <!-- Header row first group -->
-  <ng-container matColumnDef="header-row-first-group">
-    <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">First group</th>
+      >
+        {{ data[head.accessor] }}
+      </td>
+    </ng-container>
   </ng-container>
 
-  <!-- Header row second group -->
-  <ng-container matColumnDef="header-row-second-group">
-    <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">Second group</th>
+  <!-- 遍例 mainHeader columns 的資料 -->
+  <ng-container *ngFor="let head of columns">
+    <div *ngIf="head.hasOwnProperty('columns')">
+      <ng-container *ngFor="let sub of head.columns">
+        <ng-container [matColumnDef]="sub.accessor">
+          <th mat-header-cell *matHeaderCellDef>{{ sub.headerLabel }}</th>
+          <td mat-cell *matCellDef="let data">{{ data[sub.accessor] }}</td>
+        </ng-container>
+      </ng-container>
+    </div>
   </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayColsDef"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColsDef"></tr>
 </table>
+
+<mat-paginator
+  [pageSizeOptions]="[8, 50, 200]"
+  showFirstLastButtons
+></mat-paginator>
