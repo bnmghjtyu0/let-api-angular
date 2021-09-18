@@ -212,13 +212,6 @@ export class RTableComponent {
       header: 'testTime-g',
       headerLabel: '名稱 testTime',
       accessor: 'testTime',
-      rowspan: 2,
-      colspan: 1,
-    },
-    {
-      header: 'dateCreated-g',
-      headerLabel: '名稱 group1',
-      accessor: 'dateCreated',
       rowspan: 1,
       colspan: 2,
       columns: [
@@ -226,6 +219,17 @@ export class RTableComponent {
         { headerLabel: '名稱 d2', accessor: 'testNumber' },
       ],
     },
+    // {
+    //   header: 'dateCreated-g',
+    //   headerLabel: '名稱 group1',
+    //   accessor: 'dateCreated',
+    //   rowspan: 1,
+    //   colspan: 2,
+    //   columns: [
+    //     { headerLabel: '名稱 d1', accessor: 'dateCreated' },
+    //     { headerLabel: '名稱 d2', accessor: 'testNumber' },
+    //   ],
+    // },
   ];
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
@@ -248,6 +252,7 @@ export class RTableComponent {
     let displayColsDef: any = [];
     let mainHeaderAccessors = abb.reduce((acc, curr) => {
       acc.push(curr.accessor);
+      //如果欄位內有 columns
       if (curr.hasOwnProperty('columns')) {
         curr.columns.map((v: any) => {
           displayColsDef.push(v.accessor);

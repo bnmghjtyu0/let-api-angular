@@ -23,23 +23,11 @@
         {{ head.headerLabel }}
       </th>
     </ng-container>
-    <ng-container [matColumnDef]="head.accessor" *ngIf="head.rowspan !== 1">
-      <th mat-header-cell *matHeaderCellDef [ngStyle]="{ display: 'none' }">
-        {{ head.accessor }}
-      </th>
-      <td
-        mat-cell
-        *matCellDef="let data; let i = index"
-
-      >
-        {{ data[head.accessor] }}
-      </td>
-    </ng-container>
   </ng-container>
 
   <!-- 遍例 mainHeader columns 的資料 -->
   <ng-container *ngFor="let head of columns">
-    <div *ngIf="head.hasOwnProperty('columns')">
+    <div *ngIf="head.hasOwnProperty('columns'); else bb">
       <ng-container *ngFor="let sub of head.columns">
         <ng-container [matColumnDef]="sub.accessor">
           <th mat-header-cell *matHeaderCellDef>{{ sub.headerLabel }}</th>
@@ -47,6 +35,17 @@
         </ng-container>
       </ng-container>
     </div>
+
+    <ng-template #bb>
+      <ng-container [matColumnDef]="head.accessor">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ display: 'none' }">
+          {{ head.accessor }}
+        </th>
+        <td mat-cell *matCellDef="let data; let i = index">
+          {{ data[head.accessor] }}
+        </td>
+      </ng-container>
+    </ng-template>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayColsDef"></tr>
