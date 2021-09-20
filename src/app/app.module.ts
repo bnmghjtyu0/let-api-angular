@@ -1,21 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NameEditorComponent } from './name-editor/name-editor.component';
 
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    NameEditorComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule
-  ],
+  declarations: [AppComponent, NameEditorComponent],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
