@@ -1,7 +1,8 @@
 import { Component, ViewChild, Input } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { DATA } from './datas';
 interface Columns {
   header: string;
   headerLabel: string;
@@ -11,169 +12,6 @@ interface Columns {
   columns?: Array<{ accessor: string }>;
 }
 
-export const DATA = [
-  {
-    priority: 'P1',
-    status: 'Undefined P1',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P1',
-    status: 'Undefined P1',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P1',
-    status: 'Undefined P1',
-    dateCreated: '11/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P1',
-    status: 'Undefined P1',
-    dateCreated: '11/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P1',
-    status: 'Open P1',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P1',
-    status: 'Open P1',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P1',
-    status: 'Open P1',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P1',
-    status: 'Open P1',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P1',
-    status: 'New P1',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P1',
-    status: 'New P1',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P2',
-    status: 'Undefined P2',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P2',
-    status: 'Undefined P2',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P2',
-    status: 'Undefined P2',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P2',
-    status: 'Undefined P2',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P2',
-    status: 'Open P2',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P2',
-    status: 'Open P2',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P2',
-    status: 'Open P2',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P2',
-    status: 'Open P2',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P2',
-    status: 'New P2',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-  {
-    priority: 'P2',
-    status: 'New P2',
-    dateCreated: '12/12/12',
-    testNumber: 545,
-    testCurrency: 45,
-    testTime: '12:45',
-  },
-];
-
 @Component({
   selector: 'r-table',
   templateUrl: './r-table.component.html',
@@ -181,7 +19,6 @@ export const DATA = [
 })
 export class RTableComponent {
   @Input() datas = new MatTableDataSource<any>();
-  // @Input() columns: string[] = [];
 
   mainHeaderDef = [];
   displayColsDef = [];
@@ -212,6 +49,13 @@ export class RTableComponent {
       header: 'testTime-g',
       headerLabel: '名稱 testTime',
       accessor: 'testTime',
+      rowspan: 2,
+      colspan: 1,
+    },
+    {
+      header: 'dateCreated-g',
+      headerLabel: '名稱 group1',
+      accessor: 'dateCreated',
       rowspan: 1,
       colspan: 2,
       columns: [
@@ -219,40 +63,33 @@ export class RTableComponent {
         { headerLabel: '名稱 d2', accessor: 'testNumber' },
       ],
     },
-    // {
-    //   header: 'dateCreated-g',
-    //   headerLabel: '名稱 group1',
-    //   accessor: 'dateCreated',
-    //   rowspan: 1,
-    //   colspan: 2,
-    //   columns: [
-    //     { headerLabel: '名稱 d1', accessor: 'dateCreated' },
-    //     { headerLabel: '名稱 d2', accessor: 'testNumber' },
-    //   ],
-    // },
   ];
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
-  @ViewChild(MatPaginator) paginator: any;
-
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
   spans: any = [];
 
   constructor() {
     this.cacheSpan('priority', (d: any) => d.priority);
     this.cacheSpan('status', (d: any) => d.status);
     this.cacheSpan('dateCreated', (d: any) => d.dateCreated);
+    this.cacheSpan('testNumber', (d: any) => d.testNumber);
+    this.cacheSpan('testCurrency', (d: any) => d.testCurrency);
+    this.cacheSpan('testTime', (d: any) => d.testTime);
   }
 
   ngOnInit() {
     this.dataSource.data = DATA;
     this.dataSource.paginator = this.paginator;
-
+    this.dataSource.sort = this.sort;
+    console.log(this.dataSource);
     // 遍例所有 mainHeader 的 accessor
     const abb = [...this.columns];
     let displayColsDef: any = [];
     let mainHeaderAccessors = abb.reduce((acc, curr) => {
       acc.push(curr.accessor);
-      //如果欄位內有 columns
+      //如果有 columns
       if (curr.hasOwnProperty('columns')) {
         curr.columns.map((v: any) => {
           displayColsDef.push(v.accessor);

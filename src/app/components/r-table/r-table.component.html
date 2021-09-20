@@ -10,8 +10,9 @@
   }
 </style>
 <!-- 動態寫法 -->
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
   <tr mat-header-row *matHeaderRowDef="mainHeaderDef"></tr>
+
   <ng-container *ngFor="let head of columns">
     <ng-container [matColumnDef]="head.header">
       <th
@@ -31,7 +32,9 @@
       <ng-container *ngFor="let sub of head.columns">
         <ng-container [matColumnDef]="sub.accessor">
           <th mat-header-cell *matHeaderCellDef>{{ sub.headerLabel }}</th>
-          <td mat-cell *matCellDef="let data">{{ data[sub.accessor] }}</td>
+          <td mat-cell *matCellDef="let data; let i = index">
+            {{ data[sub.accessor] }}
+          </td>
         </ng-container>
       </ng-container>
     </div>
@@ -41,7 +44,12 @@
         <th mat-header-cell *matHeaderCellDef [ngStyle]="{ display: 'none' }">
           {{ head.accessor }}
         </th>
-        <td mat-cell *matCellDef="let data; let i = index">
+        <td
+          mat-cell
+          *matCellDef="let data; let i = index"
+          [attr.rowspan]="getRowSpan(head.accessor, i)"
+          [style.display]="getRowSpan(head.accessor, i) ? '' : 'none'"
+        >
           {{ data[head.accessor] }}
         </td>
       </ng-container>
@@ -53,6 +61,6 @@
 </table>
 
 <mat-paginator
-  [pageSizeOptions]="[8, 50, 200]"
+  [pageSizeOptions]="[5, 10, 50]"
   showFirstLastButtons
 ></mat-paginator>
