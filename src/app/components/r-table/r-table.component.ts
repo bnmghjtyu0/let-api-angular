@@ -1,8 +1,19 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
+import {
+  Component,
+  ViewChild,
+  Input,
+  TemplateRef,
+  ContentChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DATA } from './datas';
+
+interface ViewContext<T> {
+  $implicit: T;
+}
 interface Columns {
   header: string;
   headerLabel: string;
@@ -18,56 +29,17 @@ interface Columns {
   styleUrls: ['./r-table.component.scss'],
 })
 export class RTableComponent {
+  @ContentChild(TemplateRef) templateRef!: TemplateRef<any>;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @Input() datas = new MatTableDataSource<any>();
+  @Input() columns: any = [];
 
   mainHeaderDef = [];
   displayColsDef = [];
 
-  columns: any = [
-    {
-      header: 'priority-g',
-      headerLabel: '名稱 priority',
-      accessor: 'priority',
-      rowspan: 2,
-      colspan: 1,
-    },
-    {
-      header: 'status-g',
-      headerLabel: '名稱 status',
-      accessor: 'status',
-      rowspan: 2,
-      colspan: 1,
-    },
-    {
-      header: 'testCurrency-g',
-      headerLabel: '名稱 testCurrency',
-      accessor: 'testCurrency',
-      rowspan: 2,
-      colspan: 1,
-    },
-    {
-      header: 'testTime-g',
-      headerLabel: '名稱 testTime',
-      accessor: 'testTime',
-      rowspan: 2,
-      colspan: 1,
-    },
-    {
-      header: 'dateCreated-g',
-      headerLabel: '名稱 group1',
-      accessor: 'dateCreated',
-      rowspan: 1,
-      colspan: 2,
-      columns: [
-        { headerLabel: '名稱 d1', accessor: 'dateCreated' },
-        { headerLabel: '名稱 d2', accessor: 'testNumber' },
-      ],
-    },
-  ];
-
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+
   spans: any = [];
 
   constructor() {
@@ -143,8 +115,14 @@ export class RTableComponent {
       i += count;
     }
   }
-
+  drop(e: any): void {
+    moveItemInArray(this.dataSource.data, e.previousIndex, e.currentIndex);
+    this.dataSource = new MatTableDataSource<Element>(this.dataSource.data);
+  }
   getRowSpan(col: string, index: number) {
     return this.spans[index] && this.spans[index][col];
+  }
+  getUserViewContext(column: any, data: any): ViewContext<any> {
+    return { $implicit: { column, data } };
   }
 }
