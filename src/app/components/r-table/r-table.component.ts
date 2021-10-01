@@ -49,34 +49,29 @@ export class RTableComponent {
     this.dataSource.data = mockDatas;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log(this.dataSource);
-    // 遍例所有 mainHeader 的 accessor
-    const abb = [...this.columns];
-    let displayColsDef: any = [];
-    let mainHeaderAccessors = abb.reduce((acc, curr) => {
-      acc.push(curr.accessor);
+
+    // 遍例所有的 accessor
+    let displayColsDefTmp = [...this.columns].reduce((acc, curr) => {
       //如果有 columns
-      if (curr.hasOwnProperty('columns')) {
-        curr.columns.map((v: any) => {
-          displayColsDef.push(v.accessor);
-          acc.push(v.accessor);
-        });
+      if (Object.prototype.hasOwnProperty.call(curr, 'columns')) {
+        let accessorInColumns = curr.columns.map((v: any) => v.accessor);
+        acc.push(...accessorInColumns);
       } else {
-        displayColsDef.push(curr.accessor);
+        acc.push(curr.accessor);
       }
       return acc;
     }, []);
 
     // 資料更新，確保 console 得到最新的資料
-    this.displayColsDef = displayColsDef;
+    this.displayColsDef = displayColsDefTmp;
     this.mainHeaderDef = this.columns.map((head: any) => head.header);
     //debug
-    console.log({
-      columns: this.columns,
-      mainHeaderDef: this.mainHeaderDef,
-      displayColsDef: displayColsDef, //印出所有的 accessor
-      dataSource: this.dataSource,
-    });
+    // console.log({
+    //   columns: this.columns,
+    //   mainHeaderDef: this.mainHeaderDef,
+    //   displayColsDef: this.displayColsDef, //印出所有的 accessor
+    //   dataSource: this.dataSource,
+    // });
   }
   /**
    * Evaluated and store an evaluation of the rowspan for each row.

@@ -1,3 +1,4 @@
+// 參考 material table https://github.com/mbrn/material-table/blob/master/types/index.d.ts
 export interface Data {
   priority: string;
   status: string;
@@ -8,10 +9,10 @@ export interface Data {
 }
 
 export interface Column {
-  type?: 'radio';
+  type?: 'radio' | string;
   header: string;
   headerLabel: string;
-  accessor?: keyof Data;
+  accessor?: keyof Data | string;
   rowspan: number;
   colspan: number;
   render?: () => any;
