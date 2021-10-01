@@ -9,18 +9,11 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DATA } from './datas';
+import { mockDatas } from './mock/datas';
+import { Column } from './model/r-table';
 
 interface ViewContext<T> {
   $implicit: T;
-}
-interface Columns {
-  header: string;
-  headerLabel: string;
-  accessor: string;
-  rowspan: number;
-  colspan: number;
-  columns?: Array<{ accessor: string }>;
 }
 
 @Component({
@@ -32,11 +25,12 @@ export class RTableComponent {
   @ContentChild(TemplateRef) templateRef!: TemplateRef<any>;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
-  @Input() datas = new MatTableDataSource<any>();
-  @Input() columns: any = [];
 
-  mainHeaderDef = [];
-  displayColsDef = [];
+  @Input() datas = new MatTableDataSource<any>();
+  @Input() columns: Column[] = [];
+
+  mainHeaderDef: any = [];
+  displayColsDef: any = [];
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
 
@@ -52,7 +46,7 @@ export class RTableComponent {
   }
 
   ngOnInit() {
-    this.dataSource.data = DATA;
+    this.dataSource.data = mockDatas;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     console.log(this.dataSource);
@@ -91,14 +85,14 @@ export class RTableComponent {
    */
 
   cacheSpan(key: string, accessor: any) {
-    for (let i = 0; i < DATA.length; ) {
-      let currentValue = accessor(DATA[i]);
+    for (let i = 0; i < mockDatas.length; ) {
+      let currentValue = accessor(mockDatas[i]);
       let count = 1;
 
       // Iterate through the remaining rows to see how many match
       // the current value as retrieved through the accessor.
-      for (let j = i + 1; j < DATA.length; j++) {
-        if (currentValue != accessor(DATA[j])) {
+      for (let j = i + 1; j < mockDatas.length; j++) {
+        if (currentValue != accessor(mockDatas[j])) {
           break;
         }
 
