@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { mockDatas } from './mock/datas';
-import { Column } from './model/r-table';
+import { Column, Data } from './model/r-table';
 
 interface ViewContext<T> {
   $implicit: T;
@@ -111,9 +111,10 @@ export class RTableComponent {
   getRowSpan(col: string, index: number) {
     return this.spans[index] && this.spans[index][col];
   }
+
   getUserViewContext(
-    column: any,
-    data: any,
+    column: Column,
+    data: Data,
     dataIdx: number
   ): ViewContext<any> {
     return { $implicit: { column, data, i: dataIdx } };
