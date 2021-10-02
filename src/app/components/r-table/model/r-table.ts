@@ -12,9 +12,9 @@ export interface Column {
   type?: 'radio' | string;
   header: string;
   headerLabel: string;
-  accessor?: keyof Data | string;
+  accessor: keyof Data | string;
   rowspan: number;
   colspan: number;
-  render?: () => any;
+  render?: (data: Data) => any;
   columns?: Array<{ headerLabel: string; accessor: string }>;
 }

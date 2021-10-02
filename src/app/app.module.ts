@@ -1,3 +1,4 @@
+import { RTableDemoBaseComponent } from './components/r-table/demo/r-table-demo-base.componnet';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -8,7 +9,7 @@ import { DemoMaterialModule } from './material-modules';
 import { HttpClientModule } from '@angular/common/http';
 import { RTableComponent } from './components/r-table/r-table.component';
 @NgModule({
-  declarations: [AppComponent, RTableComponent],
+  declarations: [AppComponent, RTableComponent, RTableDemoBaseComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

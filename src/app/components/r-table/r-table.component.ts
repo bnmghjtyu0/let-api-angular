@@ -51,7 +51,7 @@ export class RTableComponent {
     this.dataSource.sort = this.sort;
 
     // 遍例所有的 accessor
-    let displayColsDefTmp = [...this.columns].reduce((acc, curr) => {
+    let displayColsDefTmp = [...this.columns].reduce((acc: any, curr: any) => {
       //如果有 columns
       if (Object.prototype.hasOwnProperty.call(curr, 'columns')) {
         let accessorInColumns = curr.columns.map((v: any) => v.accessor);
@@ -111,7 +111,11 @@ export class RTableComponent {
   getRowSpan(col: string, index: number) {
     return this.spans[index] && this.spans[index][col];
   }
-  getUserViewContext(column: any, data: any): ViewContext<any> {
-    return { $implicit: { column, data } };
+  getUserViewContext(
+    column: any,
+    data: any,
+    dataIdx: number
+  ): ViewContext<any> {
+    return { $implicit: { column, data, i: dataIdx } };
   }
 }

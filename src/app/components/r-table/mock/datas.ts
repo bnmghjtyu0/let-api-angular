@@ -6,7 +6,7 @@ export const columns: Column[] = [
     type: 'radio',
     header: 'radio-g',
     headerLabel: '名稱 radio',
-    // accessor: '',
+    accessor: 'radio',
     rowspan: 2,
     colspan: 1,
     render: () => {},

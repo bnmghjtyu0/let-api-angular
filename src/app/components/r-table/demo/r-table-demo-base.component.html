@@ -1,0 +1,19 @@
+<r-table [columns]="columns">
+  <ng-template let-slot>
+    <div *ngIf="slot.column.type === 'link'; then link"></div>
+    <div *ngIf="slot.column.type === 'radio'; then radio"></div>
+    <ng-template #link>
+      <a> {{ slot.column.accessor }} </a>
+    </ng-template>
+    <ng-template #radio>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="delete($event, slot.data)"
+      >
+        Delete{{ slot.column.accessor }}
+      </button>
+    </ng-template>
+  </ng-template>
+</r-table>
