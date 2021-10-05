@@ -26,7 +26,7 @@ export class RTableComponent {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
-  @Input() datas = new MatTableDataSource<any>();
+  @Input() datas: any = [];
   @Input() columns: Column[] = [];
 
   mainHeaderDef: any = [];

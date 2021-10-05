@@ -1,4 +1,4 @@
-<r-table [columns]="columns">
+<r-table [columns]="columns" [datas]="datas">
   <ng-template let-slot>
     <div *ngIf="slot.column.type === 'link'; then link"></div>
     <div *ngIf="slot.column.type === 'radio'; then radio"></div>

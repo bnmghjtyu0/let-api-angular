@@ -1,3 +1,4 @@
+import { mockDatas } from './../mock/datas';
 import { Data } from './../model/r-table';
 import { Component } from '@angular/core';
 
@@ -7,7 +8,7 @@ import { Component } from '@angular/core';
   styles: [``],
 })
 export class RTableDemoBaseComponent {
-  columns = [
+  column = [
     {
       type: 'radio',
       header: 'radio-g',
@@ -59,7 +60,13 @@ export class RTableDemoBaseComponent {
       ],
     },
   ];
-
+  get datas() {
+    return mockDatas;
+  }
+  get columns() {
+    console.log('get columns')
+    return this.column;
+  }
   constructor() {}
 
   delete(e: Event, data: any) {
