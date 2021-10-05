@@ -5,8 +5,6 @@ import {
   Input,
   TemplateRef,
   ContentChild,
-  OnChanges,
-  SimpleChanges,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -23,32 +21,23 @@ interface ViewContext<T> {
   templateUrl: './r-table.component.html',
   styleUrls: ['./r-table.component.scss'],
 })
-export class RTableComponent implements OnChanges {
+export class RTableComponent {
   @ContentChild(TemplateRef) templateRef!: TemplateRef<any>;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
-  @Input() datas: any = [];
-  @Input() columns: Column[] = [];
+  loading: boolean = false;
 
-  mainHeaderDef: any = [];
-  displayColsDef: any = [];
+  _datas: any;
 
-  dataSource: MatTableDataSource<any> = new MatTableDataSource();
-
-  spans: any = [];
-
-  constructor() {
-    this.cacheSpan('priority', (d: any) => d.priority);
-    this.cacheSpan('status', (d: any) => d.status);
-    this.cacheSpan('dateCreated', (d: any) => d.dateCreated);
-    this.cacheSpan('testNumber', (d: any) => d.testNumber);
-    this.cacheSpan('testCurrency', (d: any) => d.testCurrency);
-    this.cacheSpan('testTime', (d: any) => d.testTime);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.dataSource.data = this.datas;
+  @Input()
+  set datas(val: any) {
+    this.datas = val;
+    if (!val) {
+      this.loading = true;
+      return;
+    }
+    this.dataSource.data = val;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
@@ -67,13 +56,27 @@ export class RTableComponent implements OnChanges {
     // 資料更新，確保 console 得到最新的資料
     this.displayColsDef = displayColsDefTmp;
     this.mainHeaderDef = this.columns.map((head: any) => head.header);
-    //debug
-    // console.log({
-    //   columns: this.columns,
-    //   mainHeaderDef: this.mainHeaderDef,
-    //   displayColsDef: this.displayColsDef, //印出所有的 accessor
-    //   dataSource: this.dataSource,
-    // });
+  }
+  get datas() {
+    return this._datas;
+  }
+
+  @Input() columns: Column[] = [];
+
+  mainHeaderDef: any = [];
+  displayColsDef: any = [];
+
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
+
+  spans: any = [];
+
+  constructor() {
+    this.cacheSpan('priority', (d: any) => d.priority);
+    this.cacheSpan('status', (d: any) => d.status);
+    this.cacheSpan('dateCreated', (d: any) => d.dateCreated);
+    this.cacheSpan('testNumber', (d: any) => d.testNumber);
+    this.cacheSpan('testCurrency', (d: any) => d.testCurrency);
+    this.cacheSpan('testTime', (d: any) => d.testTime);
   }
 
   /**
