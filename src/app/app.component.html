@@ -1,6 +1,28 @@
-<button mat-button color="primary">mat-button | primary</button>
-<button mat-button color="accent" disableRipple>mat-button | accent</button>
-<button mat-raised-button color="warn">mat-raised-button | warn</button>
-<button mat-button color="primary" disableRipple>
-  mat-button | primary | disableRipple
-</button>
+<form [formGroup]="queryForm">
+  <div class="px-3 d-flex">
+    <span>找名人</span>
+    <mat-form-field appearance="outline">
+      <input
+        type="text"
+        placeholder=""
+        matInput
+        formControlName="inputCrm"
+        [matAutocomplete]="auto"
+        [style.border]="'0px solid red'"
+      />
+      <mat-autocomplete
+        autoActiveFirstOption
+        #auto="matAutocomplete"
+        [displayWith]="displayFn"
+      >
+        <mat-option *ngFor="let option of optsCrm$ | async" [value]="option">
+          {{ option.singer }}
+        </mat-option>
+      </mat-autocomplete>
+
+      <mat-error>
+        <span *ngIf="errorHandling('inputCrm', 'required')"> 請選擇</span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+</form>

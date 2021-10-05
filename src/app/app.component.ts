@@ -1,26 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Logger } from './services/logger.service';
-import { MediaQueryService } from './services/media-query.service';
-
-interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Observable, of, from } from 'rxjs';
+import {
+  switchMap,
+  debounceTime,
+  distinctUntilChanged,
+  catchError,
+  map,
+  filter,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -28,11 +17,50 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  optsCrm$!: Observable<any>;
+  queryForm: FormGroup = this.fb.group({
+    inputCrm: [''],
+  });
 
-  mediaQuery: string = '';
-  constructor(private logger: Logger) {}
+  get form() {
+    return this.queryForm.controls;
+  }
+  constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.optsCrm$ = this.form.inputCrm.valueChanges.pipe(
+      distinctUntilChanged(), //和上一筆資料不同才會變更
+      debounceTime(1000), //輸入資料後，等 1 秒才會 call api
+      switchMap((value) => this.getAPI(value)), //取得 API 資料
+      catchError((err) => {
+        return of([]); //API 錯誤時，選單列清空
+      })
+    );
+  }
+  public errorHandling = (control: string, error: string) => {
+    return this.queryForm.controls[control].hasError(error);
+  };
+  private getAPI(value: string) {
+    return of([
+      {
+        singer: 'a 周杰倫',
+        id: 1,
+      },
+      {
+        singer: 'b 林依晨',
+        id: 2,
+      },
+    ]).pipe(map((res) => res.filter((x) => x.singer.indexOf(value) >= 0)));
+  }
+
+  // onSelected 後在 input 上顯示
+  displayFn(opt: any): string {
+    console.log(opt);
+    return opt && opt.singer ? opt.singer : '';
+  }
+
+  // (optionSelected)="onSelectionChange($event)"
+  // onSelectionChange(event: MatAutocompleteSelectedEvent) {
+  //   console.log(event.option.value);
+  // }
 }
