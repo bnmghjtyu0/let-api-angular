@@ -5,6 +5,8 @@ import {
   Input,
   TemplateRef,
   ContentChild,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -21,7 +23,7 @@ interface ViewContext<T> {
   templateUrl: './r-table.component.html',
   styleUrls: ['./r-table.component.scss'],
 })
-export class RTableComponent {
+export class RTableComponent implements OnChanges {
   @ContentChild(TemplateRef) templateRef!: TemplateRef<any>;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -45,8 +47,8 @@ export class RTableComponent {
     this.cacheSpan('testTime', (d: any) => d.testTime);
   }
 
-  ngOnInit() {
-    this.dataSource.data = mockDatas;
+  ngOnChanges(changes: SimpleChanges) {
+    this.dataSource.data = this.datas;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
@@ -73,6 +75,7 @@ export class RTableComponent {
     //   dataSource: this.dataSource,
     // });
   }
+
   /**
    * Evaluated and store an evaluation of the rowspan for each row.
    * The key determines the column it affects, and the accessor determines the
