@@ -16,7 +16,7 @@
         [displayWith]="displayFn"
       >
         <mat-option *ngFor="let option of optsCrm$ | async" [value]="option">
-          {{ option.singer }}
+          {{ option.sectionName }}
         </mat-option>
       </mat-autocomplete>
 

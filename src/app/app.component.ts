@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, of, from } from 'rxjs';
 import {
   switchMap,
@@ -8,7 +8,6 @@ import {
   distinctUntilChanged,
   catchError,
   map,
-  filter,
 } from 'rxjs/operators';
 
 @Component({
@@ -25,7 +24,7 @@ export class AppComponent implements OnInit {
   get form() {
     return this.queryForm.controls;
   }
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private httpClient: HttpClient) {}
 
   ngOnInit(): void {
     this.optsCrm$ = this.form.inputCrm.valueChanges.pipe(
@@ -33,30 +32,38 @@ export class AppComponent implements OnInit {
       debounceTime(1000), //輸入資料後，等 1 秒才會 call api
       switchMap((value) => this.getAPI(value)), //取得 API 資料
       catchError((err) => {
+        console.error(err);
         return of([]); //API 錯誤時，選單列清空
       })
     );
   }
+  // private _filter(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
+
+  //   return this.options.filter((option) =>
+  //     option.toLowerCase().includes(filterValue)
+  //   );
+  // }
+
   public errorHandling = (control: string, error: string) => {
     return this.queryForm.controls[control].hasError(error);
   };
   private getAPI(value: string) {
-    return of([
-      {
-        singer: 'a 周杰倫',
-        id: 1,
-      },
-      {
-        singer: 'b 林依晨',
-        id: 2,
-      },
-    ]).pipe(map((res) => res.filter((x) => x.singer.indexOf(value) >= 0)));
+    return this.httpClient
+      .get<any>(
+        'https://content.guardianapis.com/search?q=debates&api-key=test'
+      )
+      .pipe(
+        map((x) => x.response.results),
+        map((res: any) => {
+          return res.filter((x: any) => x.sectionName.indexOf(value) >= 0);
+        })
+      );
   }
 
   // onSelected 後在 input 上顯示
   displayFn(opt: any): string {
-    console.log(opt);
-    return opt && opt.singer ? opt.singer : '';
+    return opt && opt.sectionName ? opt.sectionName : '';
   }
 
   // (optionSelected)="onSelectionChange($event)"
