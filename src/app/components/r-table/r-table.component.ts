@@ -28,11 +28,8 @@ export class RTableComponent {
 
   loading: boolean = false;
 
-  _datas: any;
-
   @Input()
   set datas(val: any) {
-    this.datas = val;
     if (!val) {
       this.loading = true;
       return;
@@ -56,9 +53,6 @@ export class RTableComponent {
     // 資料更新，確保 console 得到最新的資料
     this.displayColsDef = displayColsDefTmp;
     this.mainHeaderDef = this.columns.map((head: any) => head.header);
-  }
-  get datas() {
-    return this._datas;
   }
 
   @Input() columns: Column[] = [];
