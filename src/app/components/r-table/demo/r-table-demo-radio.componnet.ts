@@ -1,6 +1,7 @@
 import { mockDatas } from '../mock/datas';
 import { Data } from '../model/r-table';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'r-table-demo-radio',
@@ -9,7 +10,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RTableDemoRadioComponent {
-  chosenItem: any;
+  selectedTableRadio: any;
   public selection!: any;
   column = [
     {
@@ -79,6 +80,10 @@ export class RTableDemoRadioComponent {
       this.selection = this.datas[i];
     }
     return i === 0;
+  }
+  onRadioChange(e: MatRadioChange, data: any) {
+    console.log(e);
+    this.selection = data;
   }
   updateDatas(): void {
     this.datas = mockDatas;
