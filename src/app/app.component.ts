@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'let-api-angular';
+ data = { num: 1 };
+  
+  plus() {
+    ++this.data.num;
+  }
 }
