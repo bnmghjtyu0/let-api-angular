@@ -5,11 +5,13 @@ import {
   Input,
   TemplateRef,
   ContentChild,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { mockDatas } from './mock/datas';
+import { mockDatas, columns } from './mock/datas';
 import { Column, Data } from './model/r-table';
 
 interface ViewContext<T> {
@@ -20,6 +22,7 @@ interface ViewContext<T> {
   selector: 'r-table',
   templateUrl: './r-table.component.html',
   styleUrls: ['./r-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RTableComponent {
   @ContentChild(TemplateRef) templateRef!: TemplateRef<any>;
@@ -28,12 +31,32 @@ export class RTableComponent {
 
   loading: boolean = false;
 
+  _columns = [];
+  @Input()
+  set columns(val: any) {
+    if (val) {
+      this._columns = val;
+    }
+  }
+  get columns() {
+    return this._columns;
+  }
+
   @Input()
   set datas(val: any) {
-    if (!val) {
+    // if (val.length === 0) {
+    //   this.changeDetectorRef.detach();
+    // } else {
+    //   // 畫面更新
+    //   this.changeDetectorRef.reattach();
+    // }
+
+    // datas is empty
+    if (val.length === 0) {
       this.loading = true;
       return;
     }
+    //datas is not empty
     this.dataSource.data = val;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -55,8 +78,6 @@ export class RTableComponent {
     this.mainHeaderDef = this.columns.map((head: any) => head.header);
   }
 
-  @Input() columns: Column[] = [];
-
   mainHeaderDef: any = [];
   displayColsDef: any = [];
 
@@ -64,7 +85,8 @@ export class RTableComponent {
 
   spans: any = [];
 
-  constructor() {
+  constructor(private changeDetectorRef: ChangeDetectorRef) {
+    console.log('元件重新渲染')
     this.cacheSpan('priority', (d: any) => d.priority);
     this.cacheSpan('status', (d: any) => d.status);
     this.cacheSpan('dateCreated', (d: any) => d.dateCreated);

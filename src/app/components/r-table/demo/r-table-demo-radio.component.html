@@ -1,0 +1,31 @@
+<button (click)="updateDatas()">更新資料</button>
+<mat-card style="margin-top: 1rem">
+  Currently selected: {{ selection | json }}
+</mat-card>
+<mat-radio-group [(ngModel)]="chosenItem">
+  <r-table [columns]="columns" [datas]="datas">
+    <ng-template let-slot>
+      <div *ngIf="slot.column.type === 'link'; then link"></div>
+      <div *ngIf="slot.column.type === 'radio'; then radio"></div>
+      <ng-template #link>
+        <a> {{ slot.column.accessor }} </a>
+      </ng-template>
+      <ng-template #radio>
+        <mat-radio-button
+          [value]="slot.i"
+          [checked]="onRadioChecked(slot.data, slot.i)"
+          (change)="selection = slot.data"
+        ></mat-radio-button>
+        <!-- <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="delete($event, slot.data)"
+      >
+      Delete{{ slot.column.accessor }}
+    </button> -->
+      </ng-template>
+    </ng-template>
+  </r-table>
+  <mat-radio-group> </mat-radio-group
+></mat-radio-group>
