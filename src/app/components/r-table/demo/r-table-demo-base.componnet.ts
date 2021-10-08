@@ -1,5 +1,5 @@
 import { mockDatas } from './../mock/datas';
-import { Data } from './../model/r-table';
+import { Datas } from './../model/r-table';
 import { Component } from '@angular/core';
 
 @Component({
@@ -16,7 +16,7 @@ export class RTableDemoBaseComponent {
       accessor: 'radio',
       rowspan: 2,
       colspan: 1,
-      render: (data: Data) => {
+      render: (data: any) => {
         return 123;
       },
     },
@@ -64,8 +64,8 @@ export class RTableDemoBaseComponent {
     return mockDatas;
   }
   get columns() {
-    console.log('get columns')
-    return this.column;
+    console.log('get columns');
+    return this.column as any;
   }
   constructor() {}
 

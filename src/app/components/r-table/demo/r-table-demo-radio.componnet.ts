@@ -1,5 +1,5 @@
 import { mockDatas } from '../mock/datas';
-import { Data } from '../model/r-table';
+import { Datas } from '../model/r-table';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 
@@ -20,9 +20,7 @@ export class RTableDemoRadioComponent {
       accessor: 'radio',
       rowspan: 2,
       colspan: 1,
-      render: (data: Data) => {
-        return 123;
-      },
+      render: (data: any) => {},
     },
     {
       header: 'priority-g',
@@ -64,9 +62,9 @@ export class RTableDemoRadioComponent {
       ],
     },
   ];
-  datas: Data[] = [];
+  datas: Datas = [];
   get columns() {
-    return this.column;
+    return this.column as any;
   }
   constructor() {}
 

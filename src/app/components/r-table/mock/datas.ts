@@ -1,5 +1,5 @@
 import { Column } from './../model/r-table';
-import { Data } from '../model/r-table';
+import { Datas } from '../model/r-table';
 
 export const columns: Column[] = [
   {
@@ -51,7 +51,7 @@ export const columns: Column[] = [
     ],
   },
 ];
-export const mockDatas: Data[] = [
+export const mockDatas: Datas= [
   {
     priority: 'P1',
     status: 'Undefined P1',

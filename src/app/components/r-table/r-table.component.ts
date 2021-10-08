@@ -5,14 +5,13 @@ import {
   Input,
   TemplateRef,
   ContentChild,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy,
+  SimpleChanges,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { mockDatas, columns } from './mock/datas';
-import { Column, Data } from './model/r-table';
+import { Column, Datas } from './model/r-table';
 
 interface ViewContext<T> {
   $implicit: T;
@@ -22,77 +21,61 @@ interface ViewContext<T> {
   selector: 'r-table',
   templateUrl: './r-table.component.html',
   styleUrls: ['./r-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RTableComponent {
   @ContentChild(TemplateRef) templateRef!: TemplateRef<any>;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
-  loading: boolean = false;
-
-  _columns = [];
-  @Input()
-  set columns(val: any) {
-    if (val) {
-      this._columns = val;
-    }
-  }
-  get columns() {
-    return this._columns;
-  }
-
-  @Input()
-  set datas(val: any) {
-    // if (val.length === 0) {
-    //   this.changeDetectorRef.detach();
-    // } else {
-    //   // 畫面更新
-    //   this.changeDetectorRef.reattach();
-    // }
-
-    // datas is empty
-    if (val.length === 0) {
-      this.loading = true;
-      return;
-    }
-    //datas is not empty
-    this.dataSource.data = val;
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
-    // 遍例所有的 accessor
-    let displayColsDefTmp = [...this.columns].reduce((acc: any, curr: any) => {
-      //如果有 columns
-      if (Object.prototype.hasOwnProperty.call(curr, 'columns')) {
-        let accessorInColumns = curr.columns.map((v: any) => v.accessor);
-        acc.push(...accessorInColumns);
-      } else {
-        acc.push(curr.accessor);
-      }
-      return acc;
-    }, []);
-
-    // 資料更新，確保 console 得到最新的資料
-    this.displayColsDef = displayColsDefTmp;
-    this.mainHeaderDef = this.columns.map((head: any) => head.header);
-  }
-
   mainHeaderDef: any = [];
   displayColsDef: any = [];
-
-  dataSource: MatTableDataSource<any> = new MatTableDataSource();
-
+  dataSource: any = new MatTableDataSource();
   spans: any = [];
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
-    console.log('元件重新渲染')
+  @Input() datas: Datas = [];
+  @Input() columns: Column[] = [];
+
+  constructor() {
+    console.log('元件重新渲染');
     this.cacheSpan('priority', (d: any) => d.priority);
     this.cacheSpan('status', (d: any) => d.status);
     this.cacheSpan('dateCreated', (d: any) => d.dateCreated);
     this.cacheSpan('testNumber', (d: any) => d.testNumber);
     this.cacheSpan('testCurrency', (d: any) => d.testCurrency);
     this.cacheSpan('testTime', (d: any) => d.testTime);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    for (const propName in changes) {
+      const chng = changes[propName];
+      const cur = JSON.stringify(chng.currentValue);
+      const prev = JSON.stringify(chng.previousValue);
+      switch (propName) {
+        case 'datas':
+          if (cur.length !== 0 && cur !== prev) {
+            this.renderTable(JSON.parse(cur));
+          }
+      }
+    }
+  }
+
+  renderTable(datas: Datas) {
+    const _columns: Column[] = [...this.columns];
+
+    let displayColsDefTmp = _columns.reduce((acc: any, curr: any) => {
+      if (Object.prototype.hasOwnProperty.call(curr, 'columns')) {
+        curr.columns.map((v: any) => {
+          acc.push(v.accessor);
+        });
+      } else {
+        acc.push(curr.accessor);
+      }
+      return acc;
+    }, []);
+
+    this.dataSource.data = datas;
+    this.mainHeaderDef = this.columns.map((head: any) => head.header);
+    this.displayColsDef = displayColsDefTmp;
   }
 
   /**
@@ -136,7 +119,7 @@ export class RTableComponent {
 
   getUserViewContext(
     column: Column,
-    data: Data,
+    data: any,
     dataIdx: number
   ): ViewContext<any> {
     return { $implicit: { column, data, i: dataIdx } };

@@ -1,20 +1,17 @@
-// 參考 material table https://github.com/mbrn/material-table/blob/master/types/index.d.ts
-export interface Data {
-  priority: string;
-  status: string;
-  dateCreated: string;
-  testNumber: number;
-  testCurrency: number;
-  testTime: string;
+export interface ViewContext<T> {
+  $implicit: T;
 }
-
-export interface Column {
-  type?: 'radio' | string;
+export type Column = {
+  type?: 'link' | 'radio' | 'checkbox' | 'dragdrop';
   header: string;
   headerLabel: string;
-  accessor: keyof Data | string;
+  accessor: string;
   rowspan: number;
   colspan: number;
-  render?: (data: Data) => any;
-  columns?: Array<{ headerLabel: string; accessor: string }>;
-}
+  render?: (data: any) => void;
+  columns?: {
+    headerLabel: string;
+    accessor: string;
+  }[];
+};
+export type Datas = Record<string, any>;
