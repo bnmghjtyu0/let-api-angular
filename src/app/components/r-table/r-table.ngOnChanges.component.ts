@@ -6,13 +6,10 @@ import {
   TemplateRef,
   ContentChild,
   SimpleChanges,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BehaviorSubject, delay, startWith, tap } from 'rxjs';
 import { mockDatas, columns } from './mock/datas';
 import { Column, Datas } from './model/r-table';
 
@@ -24,7 +21,6 @@ interface ViewContext<T> {
   selector: 'r-table',
   templateUrl: './r-table.component.html',
   styleUrls: ['./r-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RTableComponent {
   @ContentChild(TemplateRef) templateRef!: TemplateRef<any>;
@@ -36,9 +32,10 @@ export class RTableComponent {
   dataSource: any = new MatTableDataSource();
   spans: any = [];
 
+  @Input() datas: Datas = [];
   @Input() columns: Column[] = [];
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
+  constructor() {
     console.log('元件重新渲染');
     this.cacheSpan('priority', (d: any) => d.priority);
     this.cacheSpan('status', (d: any) => d.status);
@@ -48,32 +45,19 @@ export class RTableComponent {
     this.cacheSpan('testTime', (d: any) => d.testTime);
   }
 
-  _datas = [];
-  @Input()
-  set datas(val: any) {
-    console.log('@Input set()');
-    // this.changeDetectorRef.detach();
-    this.renderTable(val);
-    // this.changeDetectorRef.detectChanges();
-    this._datas = val;
+  ngOnChanges(changes: SimpleChanges): void {
+    for (const propName in changes) {
+      const chng = changes[propName];
+      const cur = JSON.stringify(chng.currentValue);
+      const prev = JSON.stringify(chng.previousValue);
+      switch (propName) {
+        case 'datas':
+          if (cur.length !== 0 && cur !== prev) {
+            this.renderTable(JSON.parse(cur));
+          }
+      }
+    }
   }
-  get datas() {
-    return this._datas;
-  }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   for (const propName in changes) {
-  //     const chng = changes[propName];
-  //     const cur = JSON.stringify(chng.currentValue);
-  //     const prev = JSON.stringify(chng.previousValue);
-  //     switch (propName) {
-  //       case 'datas':
-  //         if (cur.length !== 0 && cur !== prev) {
-  //           this.renderTable(JSON.parse(cur));
-  //         }
-  //     }
-  //   }
-  // }
 
   renderTable(datas: Datas) {
     const _columns: Column[] = [...this.columns];

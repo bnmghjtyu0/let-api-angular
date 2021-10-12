@@ -86,4 +86,8 @@ export class RTableDemoRadioComponent {
   updateDatas(): void {
     this.datas = mockDatas;
   }
+  popDatas(): void {
+    this.datas.pop();
+    this.updateDatas();
+  }
 }
