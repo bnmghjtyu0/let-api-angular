@@ -1,4 +1,9 @@
-<p-table [value]="products" responsiveLayout="scroll">
+<p-table
+  [value]="products"
+  responsiveLayout="scroll"
+  [lazy]="true"
+  (onLazyLoad)="loadData($event)"
+>
   <ng-template pTemplate="header">
     <tr>
       <th>Code</th>
