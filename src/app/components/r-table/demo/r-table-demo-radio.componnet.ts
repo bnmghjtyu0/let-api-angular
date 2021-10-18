@@ -90,4 +90,7 @@ export class RTableDemoRadioComponent {
     this.datas.pop();
     this.updateDatas();
   }
+  getDatas():void {
+    console.log(this.datas)
+  }
 }
