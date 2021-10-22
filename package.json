@@ -9,6 +9,9 @@
     "test": "ng test",
     "deploy": "ng deploy --base-href=/let-api-angular/"
   },
+  "volta": {
+    "node": "12.14.1"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~12.1.1",
