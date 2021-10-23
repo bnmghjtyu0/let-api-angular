@@ -9,7 +9,7 @@ export class HeaderComponent {
   sitename: string = 'The Will Will Web';
   constructor() {}
 
-  changeTitle($event: PointerEvent) {
+  changeTitle($event: MouseEvent) {
     console.log($event);
   }
 }
