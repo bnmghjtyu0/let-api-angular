@@ -34,4 +34,8 @@ export class AppComponent {
     // 關注點分離
     this.result = value;
   }
+
+  deleteArticle(id: any) {
+    console.log('article id', id);
+  }
 }
