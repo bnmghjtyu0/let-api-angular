@@ -24,8 +24,10 @@ export class AppComponent {
   data: Article[] = [];
 
   constructor(private http: HttpClient) {
-    this.http.get<Article[]>('api/articles.json').subscribe((res) => {
-      this.data = res;
+    this.http.get<Article[]>('api/articles.json').subscribe({
+      next: (res) => {
+        this.data = res;
+      },
     });
   }
   doSearch(value: string) {
