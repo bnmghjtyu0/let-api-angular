@@ -1,5 +1,7 @@
+import { ApiService } from './api.service';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 interface Article {
   id: number;
@@ -23,12 +25,11 @@ export class AppComponent {
 
   data: Article[] = [];
 
-  constructor(private http: HttpClient) {
-    this.http.get<Article[]>('api/articles.json').subscribe({
-      next: (res) => {
-        this.data = res;
-      },
-    });
+  data$: Observable<any[]> = of([]);
+
+  constructor(private apiService: ApiService) {
+    this.data$ = apiService.getArticle();
+
   }
   doSearch(value: string) {
     // 關注點分離
