@@ -20,8 +20,7 @@ export class TodoComponent {
   /**
    * The entry todo from the parent list
    */
-  @Input()
-  todo!: Todo
+  @Input() todo!: Todo;
 
   /**
    * Local reference of TodoStore

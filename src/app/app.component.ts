@@ -9,13 +9,11 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'let-api-angular';
 
-  todo: Todo;
+  todo: Todo = {
+    completed: false,
+    editing: false,
+    title: 'h1231i',
+  };
 
-  constructor() {
-    this.todo = {
-      title: 'Hello',
-      completed: true,
-      editing: false,
-    };
-  }
+  constructor() {}
 }

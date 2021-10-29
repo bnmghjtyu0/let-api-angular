@@ -19,10 +19,9 @@ export class Todo {
   // private _title!: string
   get title() {
     // return this._title;
-    return 'hello'
+    return 'hello';
   }
   set title(value: string) {
-    console.log(value)
     // this._title = value.trim();
   }
 
