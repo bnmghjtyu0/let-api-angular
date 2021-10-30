@@ -11,4 +11,9 @@ export class ArticlesService {
   getArticle() {
     return this.httpClient.get<Article[]>('http://localhost:3000/api/articles');
   }
+  queryArticle(query: any) {
+    return this.httpClient.get<Article[]>(
+      `http://localhost:3000/api/articles?q=${query}`
+    );
+  }
 }
