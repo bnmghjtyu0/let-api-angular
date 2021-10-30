@@ -16,4 +16,10 @@ export class ArticlesService {
       `http://localhost:3000/api/articles?q=${query}`
     );
   }
+
+  getArticleByKeyWord(article: any, searchText: any) {
+    return article.filter(
+      (article: any) => article.title.indexOf(searchText) !== -1
+    );
+  }
 }

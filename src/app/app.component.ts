@@ -1,6 +1,7 @@
 import { Article } from './api/models/article';
 import { ArticlesService } from './services/articles.service';
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,20 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'conduit';
   subTitle = `A place to share your <u>knowledge</u>.`;
-  articles: Article[] = [];
+  // articles: Article[] = [];
   //等待畫面更新才會訂閱
   articles$ = this.articlesService.getArticle();
   cacheArticles: Article[] = [];
   searchText = '';
+
+  // searchTextState$ = new BehaviorSubject<string>('');
+
+  // this.searchTextState$.pipe(
+  //   switchMap((keyword)=>{
+  //     keyword ===''?
+  //     this.article
+  //   })
+  // )
 
   constructor(private articlesService: ArticlesService) {}
 
@@ -28,15 +38,15 @@ export class AppComponent implements OnInit {
   }
 
   onSearchText($event: any) {
-    let searchText = $event;
-    if (searchText === '') {
-      this.articles = this.cacheArticles;
-    }
-    this.articles = this.filterArticles(searchText);
+    // let searchText = $event;
+    // if (searchText === '') {
+    //   this.articles = this.cacheArticles;
+    // }
+    // this.articles = this.filterArticles(searchText);
   }
-  filterArticles(text: string) {
-    return this.articles.filter(
-      (article) => article.title.indexOf(text) !== -1
-    );
-  }
+  // filterArticles(text: string) {
+  //   return this.articles.filter(
+  //     (article) => article.title.indexOf(text) !== -1
+  //   );
+  // }
 }

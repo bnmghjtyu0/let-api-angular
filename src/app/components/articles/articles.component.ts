@@ -6,7 +6,7 @@ import { Article } from '../../api/models/article';
   styleUrls: ['./articles.component.scss'],
 })
 export class ArticlesComponent implements OnInit {
-  @Input() articles!: Article[];
+  @Input() articles!: any
   constructor() {}
 
   ngOnInit(): void {}
