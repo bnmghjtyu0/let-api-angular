@@ -1,4 +1,4 @@
-<app-header (onSearchText)="onSearchText($event)"></app-header>
+<app-header [(searchText)]="searchText" (searchTextChange)="onSearchText($event)"></app-header>
 
 <div class="home-page">
   <div class="banner">

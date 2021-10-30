@@ -12,6 +12,7 @@ export class AppComponent {
   subTitle = `A place to share your <u>knowledge</u>.`;
   articles: Article[] = [];
   cacheArticles: Article[] = [];
+  searchText = '';
 
   constructor(private articlesService: ArticlesService) {
     this.articlesService.getArticle().subscribe({
@@ -31,6 +32,8 @@ export class AppComponent {
     console.log(this.articles);
   }
   filterArticles(text: string) {
-    return this.articles.filter((article) => article.title.indexOf(text) !== -1);
+    return this.articles.filter(
+      (article) => article.title.indexOf(text) !== -1
+    );
   }
 }
