@@ -9,6 +9,6 @@ export class ArticlesService {
   constructor(private httpClient: HttpClient) {}
 
   getArticle() {
-    return this.httpClient.get<Article[]>('assets/api-mocks/articles.json');
+    return this.httpClient.get<Article[]>('http://localhost:3000/api/articles');
   }
 }

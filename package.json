@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "deploy": "ng deploy --base-href=/let-api-angular/",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "json-server": "json-server src/assets/api-mocks/db.json --routes src/assets/api-mocks/routes.json"
   },
   "private": true,
   "dependencies": {
