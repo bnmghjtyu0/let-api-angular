@@ -1,6 +1,12 @@
 <nav class="navbar navbar-light">
   <div class="container">
-    <a class="navbar-brand" href="index.html">conduit</a>
+    <a
+      class="navbar-brand"
+      [class]="isHighLight"
+      [style.font-size.px]="fontSize"
+      href="index.html"
+      >conduit</a
+    >
     <input
       class="form-control form-control-sm search-input"
       type="text"

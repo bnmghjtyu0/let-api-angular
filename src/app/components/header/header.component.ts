@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   searchText = '';
+  isHighLight = false;
+  fontSize = 12;
 
   constructor() {}
 
@@ -22,6 +24,8 @@ export class HeaderComponent implements OnInit {
   }
 
   doSearch() {
+    this.isHighLight = !this.isHighLight;
+    this.fontSize += 2;
     this.searchText += '!';
     console.log('搜尋');
   }
