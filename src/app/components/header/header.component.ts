@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   searchText = '';
-  isHighLight = false;
+  isHighLight: boolean = false;
   fontSize = 12;
   alertMsg = '請輸入查詢條件';
 
+  @Output() onSearchText: EventEmitter<any> = new EventEmitter();
   constructor() {}
 
   ngOnInit(): void {}
@@ -27,7 +28,8 @@ export class HeaderComponent implements OnInit {
   doSearch() {
     this.isHighLight = !this.isHighLight;
     this.fontSize += 2;
-    this.searchText += '!';
     console.log('搜尋');
+
+    this.onSearchText.emit(this.searchText);
   }
 }
