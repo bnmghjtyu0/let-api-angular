@@ -8,6 +8,7 @@
       >conduit</a
     >
     <input
+      #input
       class="form-control form-control-sm search-input"
       type="text"
       placeholder="Keyword"
@@ -17,5 +18,9 @@
     <button class="btn btn-sm btn-primary" (click)="handleSearchButton($event)">
       <i class="ion-search"></i></button
     >{{ searchText }}
+
+    <div *ngIf="searchText === ''">
+      {{ alertMsg }}
+    </div>
   </div>
 </nav>

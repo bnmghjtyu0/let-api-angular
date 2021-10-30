@@ -8,6 +8,7 @@ import { ArticlesComponent } from './components/articles/articles.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TagsComponent,
     FooterComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

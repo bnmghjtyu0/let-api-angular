@@ -9,6 +9,7 @@ export class HeaderComponent implements OnInit {
   searchText = '';
   isHighLight = false;
   fontSize = 12;
+  alertMsg = '請輸入查詢條件';
 
   constructor() {}
 
