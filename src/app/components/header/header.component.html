@@ -21,7 +21,7 @@
 
     <span class="highlight">
       <ng-container
-        *ngIf="searchText === ''; then noKeyWord; else searchKeyword"
+        *ngIf="searchText === '' ? noKeyWord : searchKeyword"
       ></ng-container>
 
       <ng-template #noKeyWord>

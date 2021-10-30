@@ -2,7 +2,8 @@ import { Article } from './api/models/article';
 import { ArticlesService } from './services/articles.service';
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-
+import { HttpClient } from '@angular/common/http';
+import '../assets/msw';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,15 +27,20 @@ export class AppComponent implements OnInit {
   //   })
   // )
 
-  constructor(private articlesService: ArticlesService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private articlesService: ArticlesService
+  ) {}
 
   ngOnInit(): void {
+    this.httpClient.get('/api/userlist').subscribe(console.log);
     // this.articlesService.getArticle().subscribe({
     //   next: (res) => {
     //     this.articles = res;
     //     this.cacheArticles = res;
     //   },
     // });
+
   }
 
   onSearchText($event: any) {

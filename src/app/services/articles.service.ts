@@ -9,11 +9,11 @@ export class ArticlesService {
   constructor(private httpClient: HttpClient) {}
 
   getArticle() {
-    return this.httpClient.get<Article[]>('http://localhost:3000/api/articles');
+    return this.httpClient.get<Article[]>('/api/articles');
   }
   queryArticle(query: any) {
     return this.httpClient.get<Article[]>(
-      `http://localhost:3000/api/articles?q=${query}`
+      `/api/articles?q=${query}`
     );
   }
 
