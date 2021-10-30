@@ -9,6 +9,7 @@ import { TagsComponent } from './components/tags/tags.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FilterPipe } from './filter.pipe';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     ArticlesComponent,
     TagsComponent,
     FooterComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,

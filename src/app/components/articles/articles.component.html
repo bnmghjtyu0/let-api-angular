@@ -19,7 +19,7 @@
           <a href="profile.html" class="author">{{
             article.author.username
           }}</a>
-          <span class="date">{{ article.createdAt }}</span>
+          <span class="date">{{ article.createdAt | date:'yyyy-MM-dd' }}</span>
         </div>
         <button class="btn btn-outline-primary btn-sm pull-xs-right">
           <i class="ion-heart"></i> {{ article.favoritesCount }}
