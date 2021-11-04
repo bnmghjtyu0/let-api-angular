@@ -6,11 +6,29 @@ import {
   FormGroup,
   AbstractControl,
   FormControl,
+  FormGroupDirective,
+  NgForm,
 } from '@angular/forms';
 import { Room } from './form';
 import { datePickerValidator } from './datepicker-validator';
+import { ErrorStateMatcher } from '@angular/material/core';
 function NoNegativeNumbers(control: AbstractControl) {
   return control.value < 0 ? { negativeNumber: true } : null;
+}
+
+// material ui 監聽 Reactive Form
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
+  }
 }
 
 @Component({
@@ -21,6 +39,7 @@ function NoNegativeNumbers(control: AbstractControl) {
 export class FormComponent implements OnInit {
   title = 'forms-cross-field-validation';
   profileForm!: FormGroup;
+  matcher = new MyErrorStateMatcher();
 
   get form() {
     return this.profileForm.controls;
@@ -92,6 +111,7 @@ export class FormComponent implements OnInit {
       'lastName',
       'age',
       'room',
+      'date',
     ]);
   }
   onSearch() {
@@ -104,6 +124,8 @@ export class FormComponent implements OnInit {
     this.addValidators(this.profileForm, validationType);
   }
   onSubmit() {
+    let { firstName, lastName, age, room } = this.profileForm.controls;
+    //移除全部的驗證規則
     this.removeValidators(this.profileForm, ['firstName', 'lastName', 'room']);
     const validationType: any = {
       firstName: [Validators.required],
@@ -112,18 +134,14 @@ export class FormComponent implements OnInit {
       room: [Validators.required],
       date: [Validators.required, datePickerValidator()],
     };
+    //加入新的驗證規則
     this.addValidators(this.profileForm, validationType);
-    let firstName = this.profileForm.controls.firstName.value;
-    let lastName = this.profileForm.controls.lastName.value;
-    let age = this.profileForm.controls.age.value;
-    let room = this.profileForm.controls.room.value;
 
-    let form = {
-      firstName,
-      lastName,
-      age,
-      room,
-    };
-    console.log(form);
+    // 驗證
+    if (!this.profileForm.valid) {
+      console.log('驗證失敗');
+    }
+    //驗證成功
+    console.log(this.profileForm);
   }
 }
