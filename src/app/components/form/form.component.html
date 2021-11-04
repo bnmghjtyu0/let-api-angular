@@ -51,6 +51,7 @@
         [matDatepicker]="dp3"
         [disabled]="true"
         formControlName="date"
+        [errorStateMatcher]="matcher"
       />
       <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
       <mat-datepicker #dp3 disabled="false"></mat-datepicker>
