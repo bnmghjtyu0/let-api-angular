@@ -8,7 +8,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Room } from './form';
-
+import { datePickerValidator } from './datepicker-validator';
 function NoNegativeNumbers(control: AbstractControl) {
   return control.value < 0 ? { negativeNumber: true } : null;
 }
@@ -44,6 +44,7 @@ export class FormComponent implements OnInit {
         lastName: [null],
         age: [null],
         room: [null, Validators.required],
+        date: [null, [Validators.required, datePickerValidator()]],
       },
       {
         validators: [this.roomOver18Validator.onlyAccessRoomsOver18(18)],
@@ -109,6 +110,7 @@ export class FormComponent implements OnInit {
       lastName: [Validators.required],
       age: [Validators.required],
       room: [Validators.required],
+      date: [Validators.required, datePickerValidator()],
     };
     this.addValidators(this.profileForm, validationType);
     let firstName = this.profileForm.controls.firstName.value;

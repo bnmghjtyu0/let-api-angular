@@ -44,6 +44,22 @@
     </mat-form-field>
     <br />
 
+    <mat-form-field appearance="fill">
+      <mat-label>Input disabled</mat-label>
+      <input
+        matInput
+        [matDatepicker]="dp3"
+        [disabled]="true"
+        formControlName="date"
+      />
+      <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+      <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+      <mat-error>
+        <span *ngIf="errorHandling('date', 'required')"> 請選擇日期</span>
+      </mat-error>
+    </mat-form-field>
+    <br />
+
     <!-- 必須要在 form 裡面，才能觸發錯誤訊息 -->
     <button mat-raised-button color="primary" (click)="onSubmit()">
       Submit
