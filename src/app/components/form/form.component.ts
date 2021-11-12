@@ -52,18 +52,24 @@ export class FormComponent implements OnInit {
   ];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private roomOver18Validator: RoomOver18Validator
   ) {}
 
   register() {
-    this.profileForm = this.formBuilder.group(
+    this.profileForm = this.fb.group(
       {
         firstName: [null],
         lastName: [null],
         age: [null],
         room: [null, Validators.required],
         date: [null, [Validators.required, datePickerValidator()]],
+        address: this.fb.group({
+          street: [''],
+          city: [''],
+          state: [''],
+          zip: [''],
+        }),
       },
       {
         validators: [this.roomOver18Validator.onlyAccessRoomsOver18(18)],
@@ -76,17 +82,48 @@ export class FormComponent implements OnInit {
     this.register();
   }
 
-  public addValidators(form: FormGroup, validationArray: any) {
+  public addValidatorsNested(form: FormGroup, validationArray: any) {
     for (const key in form.controls) {
-      form.controls[key].setValidators(validationArray[key]);
-      form.controls[key].updateValueAndValidity();
+      //第一層 group
+      if (!Object.keys(form.controls[key]).includes('controls')) {
+        form.controls[key].setValidators(validationArray[key]);
+        form.controls[key].updateValueAndValidity();
+        continue;
+      }
+      // 第二層 group
+      for (const key2 in (form.controls[key] as FormGroup).controls) {
+        (form.controls[key] as FormGroup).controls[key2].setValidators(
+          validationArray[key2]
+        );
+        (form.controls[key] as FormGroup).controls[
+          key2
+        ].updateValueAndValidity();
+      }
     }
   }
+  // public addValidators(form: FormGroup, validationArray: any) {
+  //   for (const key in form.controls) {
+  //     form.controls[key].setValidators(validationArray[key]);
+  //     form.controls[key].updateValueAndValidity();
+  //   }
+  // }
   public removeValidators(form: FormGroup, validationPairs: any) {
+    //第一層 group
     for (const key in form.controls) {
-      if (validationPairs.includes(key)) {
-        form.controls[key].clearValidators();
-        form.controls[key].updateValueAndValidity();
+      if (!Object.keys(form.controls[key]).includes('controls')) {
+        if (validationPairs.includes(key)) {
+          form.controls[key].clearValidators();
+          form.controls[key].updateValueAndValidity();
+        }
+      }
+      // 第二層 group
+      for (const key2 in (form.controls[key] as FormGroup).controls) {
+        if (validationPairs.includes(key2)) {
+          (form.controls[key] as FormGroup).controls[key2].clearValidators();
+          (form.controls[key] as FormGroup).controls[
+            key2
+          ].updateValueAndValidity();
+        }
       }
     }
   }
@@ -102,6 +139,12 @@ export class FormComponent implements OnInit {
     return this.profileForm.controls[control].hasError(error);
   };
 
+  public errorHandlingNested = (control: string, error: string) => {
+    return (this.profileForm.controls['address'] as FormGroup).controls[
+      control
+    ].hasError(error);
+  };
+
   onReset() {
     const { firstName, lastName, age, room } = this.form;
     this.profileForm.reset();
@@ -112,6 +155,10 @@ export class FormComponent implements OnInit {
       'age',
       'room',
       'date',
+      'street',
+      'city',
+      'state',
+      'zip',
     ]);
   }
   onSearch() {
@@ -121,7 +168,7 @@ export class FormComponent implements OnInit {
     const validationType: any = {
       firstName: [Validators.required],
     };
-    this.addValidators(this.profileForm, validationType);
+    this.addValidatorsNested(this.profileForm, validationType);
   }
   onSubmit() {
     let { firstName, lastName, age, room } = this.profileForm.controls;
@@ -133,9 +180,13 @@ export class FormComponent implements OnInit {
       age: [Validators.required],
       room: [Validators.required],
       date: [Validators.required, datePickerValidator()],
+      street: [Validators.required],
+      city: [Validators.required],
+      state: [Validators.required],
+      zip: [Validators.required],
     };
     //加入新的驗證規則
-    this.addValidators(this.profileForm, validationType);
+    this.addValidatorsNested(this.profileForm, validationType);
 
     // 驗證
     if (!this.profileForm.valid) {
