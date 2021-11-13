@@ -1,7 +1,9 @@
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Logger } from './services/logger.service';
 import { MediaQueryService } from './services/media-query.service';
-
+import { datePickerValidator } from './components/form/datepicker-validator';
+import { RoomOver18Validator } from './components/form/validator.service';
 interface PeriodicElement {
   name: string;
   position: number;
@@ -32,7 +34,33 @@ export class AppComponent implements OnInit {
   dataSource = ELEMENT_DATA;
 
   mediaQuery: string = '';
-  constructor(private logger: Logger) {}
+  userForm!: FormGroup;
+  constructor(
+    private fb: FormBuilder,
+    private roomOver18Validator: RoomOver18Validator
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userForm = this.fb.group({
+      profileForm: this.fb.group(
+        {
+          firstName: [null],
+          lastName: [null],
+          age: [null],
+          room: [null, Validators.required],
+          date: [null, [Validators.required, datePickerValidator()]],
+          address: this.fb.group({
+            street: [''],
+            city: [''],
+            state: [''],
+            zip: [''],
+          }),
+        },
+        {
+          validators: [this.roomOver18Validator.onlyAccessRoomsOver18(18)],
+          updateOn: 'blur',
+        }
+      ),
+    });
+  }
 }

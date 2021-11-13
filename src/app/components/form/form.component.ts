@@ -1,5 +1,5 @@
 import { RoomOver18Validator } from './validator.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   Validators,
   FormBuilder,
@@ -42,8 +42,9 @@ export class FormComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
   get form() {
-    return this.profileForm.controls;
+    return this._form.controls;
   }
+  _form!: FormGroup;
 
   rooms: Room[] = [
     { text: 'room 1', value: 'room-1' },
@@ -51,35 +52,11 @@ export class FormComponent implements OnInit {
     { text: 'room 3', value: 'room-3' },
   ];
 
-  constructor(
-    private fb: FormBuilder,
-    private roomOver18Validator: RoomOver18Validator
-  ) {}
-
-  register() {
-    this.profileForm = this.fb.group(
-      {
-        firstName: [null],
-        lastName: [null],
-        age: [null],
-        room: [null, Validators.required],
-        date: [null, [Validators.required, datePickerValidator()]],
-        address: this.fb.group({
-          street: [''],
-          city: [''],
-          state: [''],
-          zip: [''],
-        }),
-      },
-      {
-        validators: [this.roomOver18Validator.onlyAccessRoomsOver18(18)],
-        updateOn: 'blur',
-      }
-    );
-  }
+  @Input() formGroupName!: string;
+  constructor(private rootFormGroup: FormGroupDirective) {}
 
   ngOnInit(): void {
-    this.register();
+    this._form = this.rootFormGroup.control.get(this.formGroupName) as FormGroup;
   }
 
   public addValidatorsNested(form: FormGroup, validationArray: any) {
@@ -136,20 +113,20 @@ export class FormComponent implements OnInit {
   }
   /* Handle form errors in Angular 8 */
   public errorHandling = (control: string, error: string) => {
-    return this.profileForm.controls[control].hasError(error);
+    return this._form.controls[control].hasError(error);
   };
 
   public errorHandlingNested = (control: string, error: string) => {
-    return (this.profileForm.controls['address'] as FormGroup).controls[
+    return (this._form.controls['address'] as FormGroup).controls[
       control
     ].hasError(error);
   };
 
   onReset() {
-    const { firstName, lastName, age, room } = this.form;
-    this.profileForm.reset();
+    // const { firstName, lastName, age, room } = this.form;
+    this._form.reset();
 
-    this.removeValidators(this.profileForm, [
+    this.removeValidators(this._form, [
       'firstName',
       'lastName',
       'age',
@@ -163,17 +140,17 @@ export class FormComponent implements OnInit {
   }
   onSearch() {
     console.log('search');
-    const { firstName, lastName, age, room } = this.form;
+    // const { firstName, lastName, age, room } = this.form;
     //dynamic validation
     const validationType: any = {
       firstName: [Validators.required],
     };
-    this.addValidatorsNested(this.profileForm, validationType);
+    this.addValidatorsNested(this._form, validationType);
   }
   onSubmit() {
-    let { firstName, lastName, age, room } = this.profileForm.controls;
+    let { firstName, lastName, age, room } = this._form.controls;
     //移除全部的驗證規則
-    this.removeValidators(this.profileForm, ['firstName', 'lastName', 'room']);
+    this.removeValidators(this._form, ['firstName', 'lastName', 'room']);
     const validationType: any = {
       firstName: [Validators.required],
       lastName: [Validators.required],
@@ -186,13 +163,13 @@ export class FormComponent implements OnInit {
       zip: [Validators.required],
     };
     //加入新的驗證規則
-    this.addValidatorsNested(this.profileForm, validationType);
+    this.addValidatorsNested(this._form, validationType);
 
     // 驗證
-    if (!this.profileForm.valid) {
+    if (!this._form.valid) {
       console.log('驗證失敗');
     }
     //驗證成功
-    console.log(this.profileForm);
+    console.log(this._form);
   }
 }

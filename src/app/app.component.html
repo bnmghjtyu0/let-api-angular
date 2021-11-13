@@ -1,1 +1,19 @@
-<app-form> </app-form>
+<!-- <app-form> </app-form> -->
+
+<ng-container [formGroup]="userForm">
+  <app-form formGroupName="profileForm"></app-form>
+
+  <pre
+    style="
+      border: 1px solid black;
+      width: fit-content;
+      padding:20px;
+      position: fixed;
+      right: 50px;
+      top: 0px;
+    "
+  >
+    {{ userForm.value | json }}
+</pre
+  >
+</ng-container>

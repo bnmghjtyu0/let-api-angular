@@ -1,9 +1,9 @@
 <div class="container">
-  <h4>需求</h4>
+  <!-- <h4>需求</h4>
   <p>點查詢: 需要填寫 FirstName</p>
-  <p>點Submit: 需要填寫 FirstName、lastName、age、rooms</p>
+  <p>點Submit: 需要填寫 FirstName、lastName、age、rooms</p> -->
 
-  <form [formGroup]="profileForm" class="example-form">
+  <form autocomplete="off" [formGroup]="_form" class="example-form">
     <mat-form-field appearance="fill" class="example-full-width">
       <mat-label> First Name:</mat-label>
       <input matInput formControlName="firstName" />
@@ -121,7 +121,7 @@
     </button> -->
 
     <mat-error>
-      <span *ngIf="profileForm.errors?.roomOnlyWith18">
+      <span *ngIf="_form.errors?.roomOnlyWith18">
         You can not access this room being under 18
       </span>
     </mat-error>
