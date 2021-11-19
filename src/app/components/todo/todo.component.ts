@@ -2,15 +2,6 @@ import { Todo } from './../../shared/models/todo.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { TodoStoreService } from '../../shared/services/todo-store.service';
 
-/**
- * The todo component
- * ```html
- * <todo>
- *    [todo]="todo"
- * </todo>
- * ```
- * <example-url>../screenshots/todo/todo.png</example-url>
- */
 @Component({
   selector: 'todo',
   templateUrl: './todo.component.html',
@@ -18,15 +9,8 @@ import { TodoStoreService } from '../../shared/services/todo-store.service';
 })
 
 export class TodoComponent {
-  /**
-   * The entry todo from the parent list
-   */
-  @Input() todo!: Todo;
-
-  /**
-   * Local reference of TodoStore
-   */
   todoStore: TodoStoreService;
+  @Input() todo!: Todo;
 
   constructor(todoStore: TodoStoreService) {
     this.todoStore = todoStore;
@@ -60,9 +44,7 @@ export class TodoComponent {
     if (editedTitle.length === 0) {
       return this.todoStore.remove(todo);
     }
-
     todo.title = editedTitle;
-
     this.todoStore.update();
   }
 }
