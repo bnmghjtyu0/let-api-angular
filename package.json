@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "deploy": "ng deploy --base-href=/let-api-angular/",
-    "compodoc": "npx compodoc -p tsconfig.doc.json --theme readthedocs -s -a screenshots"
+    "compodoc": "npx compodoc -p tsconfig.doc.json --theme readthedocs -s -a screenshots",
+    "compodoc:customTheme": "npx compodoc -p tsconfig.doc.json -a screenshots -y compodoc_theme_styles -s -w "
   },
   "private": true,
   "dependencies": {

@@ -1,11 +1,8 @@
 @import "./reset.css";
 @import "./bootstrap.min.css";
 @import "./bootstrap-card.css";
-@import "./prism.css";
+/* @import "./prism.css"; */
+@import "./prism-one-dark-pro.css";
 @import "./ionicons.min.css";
 @import "./compodoc.css";
 @import "./tablesort.css";
-
-.menu {
-  background-color: blue;
-}

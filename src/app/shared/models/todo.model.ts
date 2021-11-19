@@ -6,6 +6,7 @@
 export class Todo {
   /**
    * Completed status
+   * @type {boolean}
    */
   completed: boolean;
   /**
