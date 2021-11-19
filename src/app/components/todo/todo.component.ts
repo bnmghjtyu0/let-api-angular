@@ -1,7 +1,7 @@
 import { Todo } from './../../shared/models/todo.model';
 import { Component, OnInit, Input } from '@angular/core';
-
 import { TodoStoreService } from '../../shared/services/todo-store.service';
+
 /**
  * The todo component
  * ```html
@@ -16,6 +16,7 @@ import { TodoStoreService } from '../../shared/services/todo-store.service';
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.scss'],
 })
+
 export class TodoComponent {
   /**
    * The entry todo from the parent list

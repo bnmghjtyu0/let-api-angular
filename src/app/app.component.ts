@@ -12,7 +12,7 @@ export class AppComponent {
   todo: Todo = {
     completed: false,
     editing: false,
-    title: 'h1231i',
+    title: '早安有喜',
   };
 
   constructor() {}
