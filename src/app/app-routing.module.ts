@@ -10,13 +10,25 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    data: { breadcrumb: [{ label: '首頁', url: 'home' }] },
   },
   {
     path: 'movies',
     component: MoviesComponent,
+    data: {
+      breadcrumb: [
+        { label: '首頁', url: 'home' },
+        { label: '電影列表', url: 'movies' },
+      ],
+    },
     children: [
       {
         path: ':id',
+        data: {
+          breadcrumb: [
+            { label: '電影資訊', url: 'movie' },
+          ],
+        },
         component: MovieComponent,
       },
     ],

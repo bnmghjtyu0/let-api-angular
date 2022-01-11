@@ -1,0 +1,14 @@
+<!-- {{ breadcrumbs$ | async | json }} -->
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs$ | async">
+      <ng-container *ngIf="breadcrumb.active; else notActived">
+        <a active>{{ breadcrumb.label }}</a>
+      </ng-container>
+      <ng-template #notActived>
+        <a [routerLink]="'/' + breadcrumb.url">{{ breadcrumb.label }}</a>
+      </ng-template>
+    </li>
+  </ol>
+</nav>
