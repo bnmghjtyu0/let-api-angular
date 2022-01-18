@@ -1,13 +1,23 @@
 <!-- {{ breadcrumbs$ | async | json }} -->
 
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs$ | async">
+<nav class="flex" aria-label="Breadcrumb">
+  <ol class="inline-flex items-center space-x-1 md:space-x-3">
+    <li
+      class="inline-flex items-center"
+      *ngFor="let breadcrumb of breadcrumbs$ | async"
+    >
       <ng-container *ngIf="breadcrumb.active; else notActived">
-        <a active>{{ breadcrumb.label }}</a>
+        <a
+          class="inline-flex items-center text-sm text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+          >{{ breadcrumb.label }}</a
+        >
       </ng-container>
       <ng-template #notActived>
-        <a [routerLink]="'/' + breadcrumb.url">{{ breadcrumb.label }}</a>
+        <a
+          [routerLink]="'/' + breadcrumb.url"
+          class="inline-flex items-center text-sm text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+          >{{ breadcrumb.label }}</a
+        >
       </ng-template>
     </li>
   </ol>
