@@ -7,9 +7,9 @@
       *ngFor="let breadcrumb of breadcrumbs$ | async"
     >
       <ng-container *ngIf="breadcrumb.active; else notActived">
-        <a
-          class="inline-flex items-center text-sm text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-          >{{ breadcrumb.label }}</a
+        <span
+          class="ml-1 text-sm font-medium text-gray-400 md:ml-2 dark:text-gray-500"
+          >{{ breadcrumb.label }}</span
         >
       </ng-container>
       <ng-template #notActived>
