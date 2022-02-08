@@ -22,19 +22,18 @@ export class FormComponent implements OnInit {
   title = 'forms-cross-field-validation';
   profileForm!: FormGroup;
 
+  group1 = {
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    age: ['', [Validators.required, NoNegativeNumbers]],
+    room: [null, Validators.required],
+  };
+
   register() {
-    this.profileForm = this.formBuilder.group(
-      {
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        age: ['', [Validators.required, NoNegativeNumbers]],
-        room: [null, Validators.required],
-      },
-      {
-        validators: [this.roomOver18Validator.onlyAccessRoomsOver18(18)],
-        updateOn: 'blur',
-      }
-    );
+    this.profileForm = this.formBuilder.group(this.group1, {
+      validators: [this.roomOver18Validator.onlyAccessRoomsOver18(18)],
+      updateOn: 'blur',
+    });
   }
 
   rooms: Room[] = [
@@ -54,6 +53,23 @@ export class FormComponent implements OnInit {
   public errorHandling = (control: string, error: string) => {
     return this.profileForm.controls[control].hasError(error);
   };
+
+  changeSelect($event: any) {
+    if ($event.value.value === 'room-1') {
+      this.profileForm.removeControl('firstName2');
+      this.profileForm.addControl(
+        'firstName',
+        new FormControl('', Validators.required)
+      );
+    }
+    if ($event.value.value === 'room-2') {
+      this.profileForm.removeControl('firstName');
+      this.profileForm.addControl(
+        'firstName2',
+        new FormControl('', Validators.required)
+      );
+    }
+  }
 
   onSubmit() {
     // this.profileForm.controls.room.setValue(null);

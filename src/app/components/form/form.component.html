@@ -1,9 +1,20 @@
 <div class="container">
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="example-form">
-    <mat-form-field appearance="fill" class="example-full-width">
-      <mat-label> First Name:</mat-label>
-      <input matInput formControlName="firstName" />
-    </mat-form-field>
+    <ng-container [ngSwitch]="this.profileForm.controls['room'].value?.value">
+      <ng-container *ngSwitchCase="'room-1'">
+        <mat-form-field appearance="fill" class="example-full-width">
+          <mat-label> First Name:</mat-label>
+          <input matInput formControlName="firstName" />
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'room-2'">
+        <mat-form-field appearance="fill" class="example-full-width">
+          <mat-label> First Name2:</mat-label>
+          <input matInput formControlName="firstName2" />
+        </mat-form-field>
+      </ng-container>
+    </ng-container>
+
     <br />
     <mat-form-field appearance="fill" class="example-full-width">
       <mat-label> Last Name:</mat-label>
@@ -26,15 +37,17 @@
     <br />
 
     <mat-form-field class="full-width">
-      <mat-select placeholder="rooms" formControlName="room">
+      <mat-select
+        placeholder="rooms"
+        formControlName="room"
+        (selectionChange)="changeSelect($event)"
+      >
         <mat-option *ngFor="let room of rooms" [value]="room">
           {{ room.text }}
         </mat-option>
       </mat-select>
       <mat-error>
-        <span *ngIf="errorHandling('room', 'required')">
-         請選擇房間
-        </span>
+        <span *ngIf="errorHandling('room', 'required')"> 請選擇房間 </span>
       </mat-error>
     </mat-form-field>
     <br />
