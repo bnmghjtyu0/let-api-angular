@@ -5,10 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './material-modules';
-import { A11yNavbarComponent } from './components/a11y-navbar/a11y-navbar.component';
-import { FormComponent } from './components/form/form.component';
+import { SharedModule } from './shared/shared.module';
 @NgModule({
-  declarations: [AppComponent, A11yNavbarComponent, FormComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -16,6 +15,7 @@ import { FormComponent } from './components/form/form.component';
     DemoMaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
