@@ -1,1 +1,7 @@
-<app-form> </app-form>
+<!-- <app-form> </app-form> -->
+
+<form [formGroup]="profileForm" (ngSubmit)="submit()">
+  <app-custom-input formControlName="username"></app-custom-input>
+
+  <button type="submit">送出</button>
+</form>

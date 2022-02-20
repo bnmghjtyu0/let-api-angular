@@ -1,0 +1,9 @@
+<mat-form-field appearance="fill">
+  <mat-label>Clearable input</mat-label>
+  <input
+    matInput
+    type="text"
+    [value]="username"
+    (input)="pushChanges($event)"
+  />
+</mat-form-field>
