@@ -170,6 +170,11 @@ export class FormComponent implements OnInit {
     };
     this.addValidatorsNested(this.profileForm, validationType);
   }
+  onResetValidator() {
+    console.log('resetValidator');
+    this.profileForm.controls['age'].clearValidators();
+    this.profileForm.controls['age'].updateValueAndValidity();
+  }
   onSubmit() {
     let { firstName, lastName, age, room } = this.profileForm.controls;
     //移除全部的驗證規則
