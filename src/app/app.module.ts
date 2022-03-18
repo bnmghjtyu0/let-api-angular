@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { CountState } from './ngxs/state/count.state';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
     HttpClientModule,
     ReactiveFormsModule,
 
-    NgxsModule.forRoot([AppState]),
+    NgxsModule.forRoot([AppState,CountState]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
   ],

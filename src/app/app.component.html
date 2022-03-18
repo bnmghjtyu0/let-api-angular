@@ -1,3 +1,6 @@
-<a [routerLink]="['/home']">home</a>
-<a [routerLink]="['/about']">about</a>
+<a [routerLink]="['/home']" (click)="addCount()">home</a>
+<a [routerLink]="['/about']" (click)="addCount()">about</a>
+
+<h4>測試 count</h4>
+{{ count }}
 <router-outlet></router-outlet>

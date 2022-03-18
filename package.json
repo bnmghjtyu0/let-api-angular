@@ -22,6 +22,7 @@
     "@ngxs/devtools-plugin": "^3.7.3",
     "@ngxs/logger-plugin": "^3.7.3",
     "@ngxs/store": "^3.7.3",
+    "ngxs-reset-plugin": "^2.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

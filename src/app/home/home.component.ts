@@ -9,6 +9,8 @@ import {
   UpdateUsers,
 } from '../ngxs/actions/app.actions';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { StateReset } from 'ngxs-reset-plugin';
+import { initialCount } from '../ngxs/state/count.state';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,8 +20,14 @@ export class HomeComponent implements OnInit {
   title = 'let-api-angular';
   userInfo: any = [];
   userForm!: FormGroup;
+  ngxsStore!: any;
   //這裡使用 @Select 定義 state
   @Select(AppState.selectStateData) userInfo$!: Observable<any>;
+
+  /**
+   * 取得 ngxs 全部的 state
+   */
+  @Select((state: any) => state) store$!: Observable<AppState>;
   constructor(private store: Store, private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -59,5 +67,12 @@ export class HomeComponent implements OnInit {
 
   deleteUser(i: number) {
     this.store.dispatch(new DeleteUsers(i));
+  }
+
+  reset(): void {
+    this.store$.subscribe((store) => {
+      this.ngxsStore = store;
+    });
+    this.store.reset({ ...this.ngxsStore, countstate: initialCount });
   }
 }
