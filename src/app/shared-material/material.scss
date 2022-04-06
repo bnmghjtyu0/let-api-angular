@@ -1,0 +1,13 @@
+// import theme
+@import 'material-theme.scss';
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+// @include mat.all-component-themes($mobile-web-theme);
+
+// 依需求載入指定元件 styles, 減少檔案大小
+@include mat-core-theme($mobile-web-theme);
+@include mat-button-theme($mobile-web-theme);
+@include mat-select-theme($mobile-web-theme);
+@include mat-form-field-theme($mobile-web-theme);

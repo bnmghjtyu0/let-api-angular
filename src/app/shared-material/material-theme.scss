@@ -1,0 +1,40 @@
+// 設定 material 主題
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
+@import '~@angular/material/theming';
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// 設定主色系
+$chubb-blue: (
+  500: #01c1d6,
+  contrast: (
+    500: white,
+  ),
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+// $mobile-web-primary: mat.define-palette(mat.$indigo-palette);
+$mobile-web-primary: mat-palette($chubb-blue);
+$mobile-web-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+// The warn palette is optional (defaults to red).
+$mobile-web-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$mobile-web-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $mobile-web-primary,
+      accent: $mobile-web-accent,
+      warn: $mobile-web-warn,
+    ),
+  )
+);

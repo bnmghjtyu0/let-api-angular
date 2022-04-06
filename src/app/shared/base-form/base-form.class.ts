@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-base-form',
-  templateUrl: './base-form.component.html',
-  styleUrls: ['./base-form.component.scss'],
+  template: '',
 })
 export class BaseFormComponent {
   /**用於追蹤一個表單控制元件組的值和狀態 */
