@@ -1,8 +1,8 @@
-<form #formRef="ngForm" [formGroup]="form" (submit)="onSubmit()">
+<form #formRef="ngForm" [formGroup]="form" (submit)="triggerSubmit()">
   <mat-form-field appearance="fill">
     <mat-label>帳號</mat-label>
     <input matInput type="text" formControlName="account" />
   </mat-form-field>
-  <button type="button" (click)="save(formRef)">儲存</button>
+  <button type="button" (click)="save(formRef, $event)">儲存</button>
   <button type="submit">送出</button>
 </form>

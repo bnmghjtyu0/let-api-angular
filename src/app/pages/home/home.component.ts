@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseFormComponent } from 'src/app/shared';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { BaseFormInterface } from 'src/app/shared/base-form/base-form.interface';
 
 const errorMessageSource = {
@@ -22,10 +29,8 @@ const errorMessageSource = {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent
-  extends BaseFormComponent
-  implements BaseFormInterface, OnInit
-{
+export class HomeComponent implements OnInit {
+  form!: FormGroup;
   /** 唯讀表單 */
   readonly FORM_FIELD = {
     /** 帳號 */
@@ -38,9 +43,7 @@ export class HomeComponent
 
   submitErrorMsg = '';
 
-  constructor() {
-    super();
-  }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -50,22 +53,17 @@ export class HomeComponent
    * @returns 無回傳值
    */
   initForm(): void {
-    this.form = new FormGroup(
-      {
-        [this.FORM_FIELD.account]: new FormControl('', {}),
-      },
-      {
-        updateOn: 'submit',
-      }
-    );
+    this.form = this.fb.group({
+      account: ['', { validators: Validators.required, updateOn: 'submit' }],
+    });
   }
-  save(formRef: FormGroupDirective): void {
-    // formRef.submitted = true;
-    formRef.ngSubmit.emit();
+  save(formRef: FormGroupDirective, $event: Event): void {
+    formRef.onSubmit($event);
     console.log(this.form.value);
   }
 
   onSubmit(): void {
     console.log(this.form.value);
   }
+  triggerSubmit(): void {}
 }
