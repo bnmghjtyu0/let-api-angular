@@ -1,0 +1,66 @@
+<div class="form-row">
+  <div class="col-6">
+    <mat-label>上架日期 <span class="text-danger">*</span></mat-label>
+  </div>
+  <div class="col-6">
+    <mat-label>下架日期 <span class="text-danger">*</span></mat-label>
+  </div>
+</div>
+<div class="row">
+  <div class="form-group col-6">
+    <mat-form-field appearance="outline">
+      <mat-label>起日</mat-label>
+      <input
+        #startTimePicker
+        matInput
+        [ngxMatDatetimePicker]="startPicker"
+        [disabled]="true"
+        (dateInput)="
+          changeDate('startDate', $any(startPicker).datepickerInput.value)
+        "
+        [value]="startDate"
+        [max]="endDate"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="$any(startPicker)"
+        (click)="handleDateIcon()"
+      ></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #startPicker [disabled]="false" [color]="color">
+        <ng-template>
+          <span>確認</span>
+        </ng-template>
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
+  </div>
+  <div class="form-group col-6">
+    <mat-form-field appearance="outline">
+      <mat-label>迄日</mat-label>
+      <input
+        matInput
+        [ngxMatDatetimePicker]="endDatepicker"
+        [min]="startDate"
+        (dateInput)="
+          changeDate('endDate', $any(endDatepicker).datepickerInput.value)
+        "
+        [value]="endDate"
+        autocomplete="off"
+        [disabled]="true"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="$any(endDatepicker)"
+        (click)="handleDateIcon()"
+      ></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker
+        #endDatepicker
+        [disabled]="false"
+        [color]="color"
+      >
+        <ng-template>
+          <span>確定</span>
+        </ng-template>
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
+  </div>
+</div>

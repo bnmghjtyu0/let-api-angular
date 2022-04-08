@@ -73,6 +73,10 @@ export class FormComponent implements OnInit {
         room: [null, Validators.required],
         date: [null, [Validators.required, datePickerValidator()]],
         //範例：new FormArray[new FormControl('男生'), new FormControl('女生')]
+        dateTimePicker: {
+          startDate: [new Date(2022, 11, 1, 0, 0, 0)],
+          endDate: [new Date(2022, 11, 31, 23, 59, 59)],
+        },
         sex: new FormArray([]),
         address: this.fb.group({
           street: [''],
@@ -216,7 +220,7 @@ export class FormComponent implements OnInit {
     }
   }
   onSubmit() {
-    console.log(this.profileForm)
+    console.log(this.profileForm);
     let { firstName, lastName, age, room } = this.profileForm.controls;
     //移除全部的驗證規則
     this.removeValidators(this.profileForm, ['firstName', 'lastName', 'room']);

@@ -4,6 +4,9 @@
   <p>點Submit: 需要填寫 FirstName、lastName、age、rooms</p>
 
   <form [formGroup]="profileForm" class="example-form">
+    <app-datetime-range-picker formControlName="dateTimePicker"></app-datetime-range-picker>
+
+
     <mat-form-field appearance="fill" class="example-full-width">
       <mat-label> First Name:</mat-label>
       <input matInput formControlName="firstName" />
