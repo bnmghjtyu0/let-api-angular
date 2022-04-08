@@ -8,10 +8,12 @@ import {
   FormControl,
   FormGroupDirective,
   NgForm,
+  FormArray,
 } from '@angular/forms';
 import { Room } from './form';
 import { datePickerValidator } from './datepicker-validator';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 function NoNegativeNumbers(control: AbstractControl) {
   return control.value < 0 ? { negativeNumber: true } : null;
 }
@@ -51,6 +53,12 @@ export class FormComponent implements OnInit {
     { text: 'room 3', value: 'room-3' },
   ];
 
+  sexInit = ['男生'];
+  sex = [
+    { id: 1, text: '男生' },
+    { id: 2, text: '女生' },
+  ];
+
   constructor(
     private fb: FormBuilder,
     private roomOver18Validator: RoomOver18Validator
@@ -64,6 +72,8 @@ export class FormComponent implements OnInit {
         age: [null],
         room: [null, Validators.required],
         date: [null, [Validators.required, datePickerValidator()]],
+        //範例：new FormArray[new FormControl('男生'), new FormControl('女生')]
+        sex: new FormArray([]),
         address: this.fb.group({
           street: [''],
           city: [''],
@@ -80,6 +90,17 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.register();
+
+    //更新表單的值 checkbox 預設值
+    let langArr = <FormArray>this.profileForm.controls['sex'];
+    this.sexInit.forEach((val) => {
+      langArr.push(new FormControl(val));
+    });
+
+    // 監聽 checkbox 資料變化
+    this.profileForm.controls['sex'].valueChanges.subscribe((val) => {
+      console.log(val);
+    });
   }
 
   public addValidatorsNested(form: FormGroup, validationArray: any) {
@@ -175,7 +196,27 @@ export class FormComponent implements OnInit {
     this.profileForm.controls['age'].clearValidators();
     this.profileForm.controls['age'].updateValueAndValidity();
   }
+
+  /**
+   * 變更 checkbox
+   */
+  onCheckChange($event: MatCheckboxChange, item: any) {
+    const sexArray = this.profileForm.controls['sex'] as FormArray;
+    if ($event.checked) {
+      sexArray.push(new FormControl($event.source.value));
+    } else {
+      let i = 0;
+      sexArray.controls.forEach((ctrl: any) => {
+        if (ctrl.value == $event.source.value) {
+          sexArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+  }
   onSubmit() {
+    console.log(this.profileForm)
     let { firstName, lastName, age, room } = this.profileForm.controls;
     //移除全部的驗證規則
     this.removeValidators(this.profileForm, ['firstName', 'lastName', 'room']);
@@ -197,7 +238,5 @@ export class FormComponent implements OnInit {
     if (!this.profileForm.valid) {
       console.log('驗證失敗');
     }
-    //驗證成功
-    console.log(this.profileForm);
   }
 }

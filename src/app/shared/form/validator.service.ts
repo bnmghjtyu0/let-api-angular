@@ -7,10 +7,11 @@ export class RoomOver18Validator {
     return (formGroup: any) => {
       // const ageControl = formGroup.controls.age;
       // const roomControl = formGroup.controls.room;
+      const sexControl = formGroup.controls.sex;
 
-      // if (!ageControl || !roomControl) {
-      //   return null;
-      // }
+      if (sexControl.value.length < 2) {
+        return { sexMinLength: true };
+      }
 
       // const ageValue = ageControl.value;
 

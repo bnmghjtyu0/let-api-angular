@@ -84,6 +84,20 @@
         </mat-error>
       </mat-form-field>
       <br />
+      <mat-label>性別</mat-label>
+      <ng-container *ngFor="let item of sex">
+        <mat-checkbox
+          [value]="item.text"
+          [checked]="profileForm.controls['sex'].value.includes(item.text)"
+          color="primary"
+          (change)="onCheckChange($event, item)"
+          >{{ item.text }}
+        </mat-checkbox>
+      </ng-container>
+      <mat-error>
+        <span *ngIf="profileForm.hasError('sexMinLength')"> 至少選擇兩項 </span>
+      </mat-error>
+      <br />
       <mat-form-field appearance="fill" class="example-full-width">
         <mat-label>State:</mat-label>
         <input matInput formControlName="state" type="number" />

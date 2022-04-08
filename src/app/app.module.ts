@@ -7,17 +7,15 @@ import { PagesModule } from './pages/page.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './material-modules';
 import { A11yNavbarComponent } from './components/a11y-navbar/a11y-navbar.component';
-import { FormComponent } from './components/form/form.component';
+
 @NgModule({
-  declarations: [AppComponent, A11yNavbarComponent, FormComponent],
+  declarations: [AppComponent, A11yNavbarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     PagesModule,
     DemoMaterialModule,
-    FormsModule,
-    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
