@@ -1,3 +1,4 @@
+import { CountdownState } from './ngxs/state/countdown.state';
 import { DesignutilityService } from './services/designutility.service';
 import { AppState } from './ngxs/state/app.state';
 import { NgModule } from '@angular/core';
@@ -31,7 +32,7 @@ import { CountState } from './ngxs/state/count.state';
     HttpClientModule,
     ReactiveFormsModule,
 
-    NgxsModule.forRoot([AppState,CountState]),
+    NgxsModule.forRoot([AppState, CountState, CountdownState]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
   ],
