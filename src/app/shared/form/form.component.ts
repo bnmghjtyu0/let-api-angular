@@ -14,6 +14,8 @@ import { Room } from './form';
 import { datePickerValidator } from './datepicker-validator';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import commonConstant from 'src/app/constants/common';
+import { ProfileFormGroup, ProfileFormValue } from 'src/app/models/form';
 function NoNegativeNumbers(control: AbstractControl) {
   return control.value < 0 ? { negativeNumber: true } : null;
 }
@@ -40,7 +42,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class FormComponent implements OnInit {
   title = 'forms-cross-field-validation';
-  profileForm!: FormGroup;
+  profileForm!: ProfileFormGroup;
   matcher = new MyErrorStateMatcher();
 
   get form() {
@@ -62,8 +64,14 @@ export class FormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private roomOver18Validator: RoomOver18Validator
-  ) {}
+  ) {
+    this.register();
+  }
 
+  /**
+   * 註冊表單
+   *
+   */
   register() {
     this.profileForm = this.fb.group(
       {
@@ -72,11 +80,11 @@ export class FormComponent implements OnInit {
         age: [null],
         room: [null, Validators.required],
         date: [null, [Validators.required, datePickerValidator()]],
-        //範例：new FormArray[new FormControl('男生'), new FormControl('女生')]
         dateTimePicker: {
-          startDate: [new Date(2022, 11, 1, 0, 0, 0)],
-          endDate: [new Date(2022, 11, 31, 23, 59, 59)],
+          startDate: [commonConstant.startDate],
+          endDate: [commonConstant.endDate],
         },
+        // 範例：new FormArray[new FormControl('男生'), new FormControl('女生')]
         sex: new FormArray([]),
         address: this.fb.group({
           street: [''],
@@ -89,12 +97,18 @@ export class FormComponent implements OnInit {
         validators: [this.roomOver18Validator.onlyAccessRoomsOver18(18)],
         updateOn: 'blur',
       }
-    );
+    ) as ProfileFormGroup;
+
+    // 測試 FormGroup 是不是有做 deep copy
+    // this.profileForm.controls['dateTimePicker'].setValue({
+    //   startDate: new Date(2022, 2, 1, 10, 10),
+    //   endDate: new Date(2022, 10, 1, 10, 10),
+    // });
+    console.log(this.profileForm.value);
+    // console.log(commonConstant);
   }
 
   ngOnInit(): void {
-    this.register();
-
     //更新表單的值 checkbox 預設值
     let langArr = <FormArray>this.profileForm.controls['sex'];
     this.sexInit.forEach((val) => {
@@ -107,51 +121,26 @@ export class FormComponent implements OnInit {
     });
   }
 
-  public addValidatorsNested(form: FormGroup, validationArray: any) {
-    for (const key in form.controls) {
-      //第一層 group
-      if (!Object.keys(form.controls[key]).includes('controls')) {
-        form.controls[key].setValidators(validationArray[key]);
-        form.controls[key].updateValueAndValidity();
-        continue;
-      }
-      // 第二層 group
-      for (const key2 in (form.controls[key] as FormGroup).controls) {
-        (form.controls[key] as FormGroup).controls[key2].setValidators(
-          validationArray[key2]
-        );
-        (form.controls[key] as FormGroup).controls[
-          key2
-        ].updateValueAndValidity();
-      }
-    }
-  }
-  // public addValidators(form: FormGroup, validationArray: any) {
+  // public addValidatorsNested(form: FormGroup, validationArray: any) {
   //   for (const key in form.controls) {
-  //     form.controls[key].setValidators(validationArray[key]);
-  //     form.controls[key].updateValueAndValidity();
+  //     //第一層 group
+  //     if (!Object.keys(form.controls[key]).includes('controls')) {
+  //       form.controls[key].setValidators(validationArray[key]);
+  //       form.controls[key].updateValueAndValidity();
+  //       continue;
+  //     }
+  //     // 第二層 group
+  //     for (const key2 in (form.controls[key] as FormGroup).controls) {
+  //       (form.controls[key] as FormGroup).controls[key2].setValidators(
+  //         validationArray[key2]
+  //       );
+  //       (form.controls[key] as FormGroup).controls[
+  //         key2
+  //       ].updateValueAndValidity();
+  //     }
   //   }
   // }
-  public removeValidators(form: FormGroup, validationPairs: any) {
-    //第一層 group
-    for (const key in form.controls) {
-      if (!Object.keys(form.controls[key]).includes('controls')) {
-        if (validationPairs.includes(key)) {
-          form.controls[key].clearValidators();
-          form.controls[key].updateValueAndValidity();
-        }
-      }
-      // 第二層 group
-      for (const key2 in (form.controls[key] as FormGroup).controls) {
-        if (validationPairs.includes(key2)) {
-          (form.controls[key] as FormGroup).controls[key2].clearValidators();
-          (form.controls[key] as FormGroup).controls[
-            key2
-          ].updateValueAndValidity();
-        }
-      }
-    }
-  }
+
 
   public getValues(form: FormGroup, validationArray: any) {
     for (const key in form.controls) {
@@ -159,32 +148,22 @@ export class FormComponent implements OnInit {
       form.controls[key].updateValueAndValidity();
     }
   }
-  /* Handle form errors in Angular 8 */
-  public errorHandling = (control: string, error: string) => {
-    return this.profileForm.controls[control].hasError(error);
-  };
-
-  public errorHandlingNested = (control: string, error: string) => {
-    return (this.profileForm.controls['address'] as FormGroup).controls[
-      control
-    ].hasError(error);
-  };
 
   onReset() {
     const { firstName, lastName, age, room } = this.form;
     this.profileForm.reset();
 
-    this.removeValidators(this.profileForm, [
-      'firstName',
-      'lastName',
-      'age',
-      'room',
-      'date',
-      'street',
-      'city',
-      'state',
-      'zip',
-    ]);
+    // this.removeValidators(this.profileForm, [
+    //   'firstName',
+    //   'lastName',
+    //   'age',
+    //   'room',
+    //   'date',
+    //   'street',
+    //   'city',
+    //   'state',
+    //   'zip',
+    // ]);
   }
   onSearch() {
     console.log('search');
@@ -193,7 +172,7 @@ export class FormComponent implements OnInit {
     const validationType: any = {
       firstName: [Validators.required],
     };
-    this.addValidatorsNested(this.profileForm, validationType);
+    // this.addValidatorsNested(this.profileForm, validationType);
   }
   onResetValidator() {
     console.log('resetValidator');
@@ -223,7 +202,7 @@ export class FormComponent implements OnInit {
     console.log(this.profileForm);
     let { firstName, lastName, age, room } = this.profileForm.controls;
     //移除全部的驗證規則
-    this.removeValidators(this.profileForm, ['firstName', 'lastName', 'room']);
+    // this.removeValidators(this.profileForm, ['firstName', 'lastName', 'room']);
     const validationType: any = {
       firstName: [Validators.required],
       lastName: [Validators.required],
@@ -236,7 +215,7 @@ export class FormComponent implements OnInit {
       zip: [Validators.required],
     };
     //加入新的驗證規則
-    this.addValidatorsNested(this.profileForm, validationType);
+    // this.addValidatorsNested(this.profileForm, validationType);
 
     // 驗證
     if (!this.profileForm.valid) {

@@ -10,28 +10,28 @@
     <mat-form-field appearance="fill" class="example-full-width">
       <mat-label> First Name:</mat-label>
       <input matInput formControlName="firstName" />
-      <mat-error>
+      <!-- <mat-error>
         <span *ngIf="errorHandling('firstName', 'required')"> 未填 </span>
-      </mat-error>
+      </mat-error> -->
     </mat-form-field>
     <br />
     <mat-form-field appearance="fill" class="example-full-width">
       <mat-label> Last Name:</mat-label>
       <input matInput formControlName="lastName" />
-      <mat-error>
+      <!-- <mat-error>
         <span *ngIf="errorHandling('lastName', 'required')"> 未填 </span>
-      </mat-error>
+      </mat-error> -->
     </mat-form-field>
     <br />
 
     <mat-form-field appearance="fill" class="example-full-width">
       <mat-label>Age:</mat-label>
       <input matInput formControlName="age" type="number" />
-      <mat-error>
+      <!-- <mat-error>
         <span *ngIf="errorHandling('age', 'required')">
           Please provide a valid age
         </span>
-      </mat-error>
+      </mat-error> -->
     </mat-form-field>
     <br />
 
@@ -41,9 +41,9 @@
           {{ room.text }}
         </mat-option>
       </mat-select>
-      <mat-error>
+      <!-- <mat-error>
         <span *ngIf="errorHandling('room', 'required')"> 請選擇房間 </span>
-      </mat-error>
+      </mat-error> -->
     </mat-form-field>
     <br />
 
@@ -58,9 +58,9 @@
       />
       <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
       <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-      <mat-error>
+      <!-- <mat-error>
         <span *ngIf="errorHandling('date', 'required')"> 請選擇日期</span>
-      </mat-error>
+      </mat-error> -->
     </mat-form-field>
     <br />
 
@@ -70,21 +70,21 @@
       <mat-form-field appearance="fill" class="example-full-width">
         <mat-label>Street:</mat-label>
         <input matInput formControlName="street" type="number" />
-        <mat-error>
+        <!-- <mat-error>
           <span *ngIf="errorHandlingNested('street', 'required')">
             Please provide a valid street
           </span>
-        </mat-error>
+        </mat-error> -->
       </mat-form-field>
       <br />
       <mat-form-field appearance="fill" class="example-full-width">
         <mat-label>City:</mat-label>
         <input matInput formControlName="city" type="number" />
-        <mat-error>
+        <!-- <mat-error>
           <span *ngIf="errorHandlingNested('city', 'required')">
             Please provide a valid city
           </span>
-        </mat-error>
+        </mat-error> -->
       </mat-form-field>
       <br />
       <mat-label>性別</mat-label>
@@ -104,21 +104,21 @@
       <mat-form-field appearance="fill" class="example-full-width">
         <mat-label>State:</mat-label>
         <input matInput formControlName="state" type="number" />
-        <mat-error>
+        <!-- <mat-error>
           <span *ngIf="errorHandlingNested('state', 'required')">
             Please provide a valid State
           </span>
-        </mat-error>
+        </mat-error> -->
       </mat-form-field>
       <br />
       <mat-form-field appearance="fill" class="example-full-width">
         <mat-label>Zip Code:</mat-label>
         <input matInput formControlName="zip" type="number" />
-        <mat-error>
+        <!-- <mat-error>
           <span *ngIf="errorHandlingNested('zip', 'required')">
             Please provide a valid zip
           </span>
-        </mat-error>
+        </mat-error> -->
       </mat-form-field>
     </div>
 
