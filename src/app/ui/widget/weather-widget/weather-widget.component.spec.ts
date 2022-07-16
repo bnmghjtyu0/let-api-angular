@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateArticleViewComponent } from './create-article-view.component';
+import { WeatherWidgetComponent } from './weather-widget.component';
 
-describe('CreateArticleViewComponent', () => {
-  let component: CreateArticleViewComponent;
-  let fixture: ComponentFixture<CreateArticleViewComponent>;
+describe('WeatherWidgetComponent', () => {
+  let component: WeatherWidgetComponent;
+  let fixture: ComponentFixture<WeatherWidgetComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateArticleViewComponent ]
+      declarations: [ WeatherWidgetComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateArticleViewComponent);
+    fixture = TestBed.createComponent(WeatherWidgetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
