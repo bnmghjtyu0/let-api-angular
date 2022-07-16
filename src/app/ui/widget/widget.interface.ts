@@ -1,4 +1,4 @@
 export interface Widget {
-	load: () => void;
-	refresh: () => void;
+  load: () => void;
+  refresh: () => void;
 }

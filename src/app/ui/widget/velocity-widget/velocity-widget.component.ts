@@ -1,10 +1,12 @@
-import { Widget } from './../widget.token';
 import { Component, OnInit } from '@angular/core';
+import { Widget } from '../widget.interface';
+import { WIDGET_TOKEN } from '../widget.token';
 
 @Component({
   selector: 'app-velocity-widget',
   templateUrl: './velocity-widget.component.html',
   styleUrls: ['./velocity-widget.component.scss'],
+  providers: [{ provide: WIDGET_TOKEN, useExisting: VelocityWidgetComponent }],
 })
 export class VelocityWidgetComponent implements Widget {
   isRefreshing = false;

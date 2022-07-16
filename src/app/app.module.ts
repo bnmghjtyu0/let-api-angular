@@ -15,7 +15,12 @@ import { SharedMaterialModule } from './material/shared-material.module';
     VelocityWidgetComponent,
     WidgetWrapComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    SharedMaterialModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

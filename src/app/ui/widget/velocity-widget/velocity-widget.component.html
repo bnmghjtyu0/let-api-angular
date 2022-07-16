@@ -1,6 +1,16 @@
-<div class="header">
-	<h1>widget</h1>
-	<button mat-stroked-button>Refresh</button>
+<mat-spinner
+	class="loader"
+	color="accent"
+	diameter="20"
+	*ngIf="isRefreshing">
+</mat-spinner>
+
+<div [class.content-loading]="isRefreshing">
+	<h5>Last Sprint</h5>
+	<section>
+		<mat-icon class="widget-icon">assessment</mat-icon>
+		<span>Planned: </span>
+		<span>Achieve</span>
+	</section>
+
 </div>
-<mat-divider></mat-divider>
-<section></section>
