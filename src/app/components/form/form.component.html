@@ -52,6 +52,84 @@
     </mat-form-field>
     <br />
 
+    <button (click)="addProfileArray()">加加</button>
+    <div formArrayName="profileArray">
+      <ng-container
+        *ngFor="
+          let item of profileArrayControls;
+          let itemIndex = index
+        "
+        [formGroupName]="itemIndex"
+      >
+        <h4>第 {{ itemIndex + 1 }} 題</h4>
+        <mat-form-field class="full-width">
+          <mat-select
+            placeholder="omg room"
+            formControlName="omgRoom"
+            (selectionChange)="changeSelectArray($event, itemIndex)"
+          >
+            <mat-option *ngFor="let room of rooms" [value]="room">
+              {{ room.text }}
+            </mat-option>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="errorHandling('room', 'required')"> 請選擇房間 </span>
+          </mat-error>
+        </mat-form-field>
+
+        <ng-container
+          *ngIf="
+            Object.prototype.hasOwnProperty.call(
+              $any(profileArray[itemIndex]).controls,
+              'singleCity'
+            );
+            then singleCity
+          "
+        >
+        </ng-container>
+        <ng-container
+          *ngIf="
+            Object.prototype.hasOwnProperty.call(
+              $any(profileArray[itemIndex]).controls,
+              'multipleCity'
+            );
+            then multipleCity
+          "
+        >
+        </ng-container>
+        <ng-container
+          *ngIf="
+            Object.prototype.hasOwnProperty.call(
+              $any(profileArray[itemIndex]).controls,
+              'customCity'
+            );
+            then customCity
+          "
+        >
+        </ng-container>
+
+        <ng-template #singleCity>
+          <mat-form-field appearance="fill">
+            <mat-label>singleCity 選項</mat-label>
+            <input matInput formControlName="singleCity" />
+          </mat-form-field>
+        </ng-template>
+        <ng-template #multipleCity>
+          <mat-form-field appearance="fill">
+            <mat-label>multipleCity 選項</mat-label>
+            <input matInput formControlName="multipleCity" />
+          </mat-form-field>
+        </ng-template>
+        <ng-template #customCity>
+          <mat-form-field appearance="fill">
+            <mat-label>customCity 選項</mat-label>
+            <input matInput formControlName="customCity" />
+          </mat-form-field>
+        </ng-template>
+        <br />
+      </ng-container>
+    </div>
+
     <!-- 必須要在 form 裡面，才能觸發錯誤訊息 -->
     <button mat-raised-button color="primary" type="submit">Submit</button>
     <!-- <button
