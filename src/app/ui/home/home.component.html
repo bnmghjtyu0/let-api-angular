@@ -1,0 +1,6 @@
+<form #formRef="ngForm" [formGroup]="form" (ngSubmit)="submit()">
+  <app-home-form [formRef]="formRef" formGroupName="step1"></app-home-form>
+  <button mat-button mat-raised-button color="primary" type="submit">
+    送出
+  </button>
+</form>

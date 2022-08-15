@@ -1,0 +1,11 @@
+<div [formGroup]="childForm">
+  <mat-form-field appearance="outline">
+    <mat-label> 帳號</mat-label>
+    <input matInput formControlName="account" />
+  </mat-form-field>
+  <mat-error>
+    <app-control-message
+      [control]="childForm.controls.account"
+    ></app-control-message>
+  </mat-error>
+</div>
