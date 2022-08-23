@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import {  FormGroup, FormGroupDirective } from '@angular/forms';
-import { FormUtilsService } from 'src/app/services/form-utils.service';
+import { FormGroup, FormGroupDirective } from '@angular/forms';
+import { FormUtilsService } from '../../services/form-utils.service';
 
 @Component({
   selector: 'app-home-form',
