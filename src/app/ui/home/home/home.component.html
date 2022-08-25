@@ -1,5 +1,16 @@
 <h4>電影資料</h4>
-<app-common-table></app-common-table>
+<app-common-table
+  [columns]="themoviedbColumn"
+  [data]="themoviedb$ | async"
+></app-common-table>
 
 <h4>歌詞資料</h4>
-<app-common-table></app-common-table>
+<app-common-table [columns]="musicMatchColumn" [data]="musicMatch$.value">
+  <ng-template let-slot>
+    <ng-container *ngIf="slot.column.accessor === 'feature'">
+      <button>新增</button>
+      <button (click)="delete(slot.data, slot.dataIndex)">刪除</button>
+      <button>修改</button>
+    </ng-container>
+  </ng-template>
+</app-common-table>

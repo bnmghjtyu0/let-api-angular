@@ -14,12 +14,11 @@ export class ApiInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    console.log(12312)
-    const newHeader = request.clone({
-      headers: request.headers.set('token', 'happy'),
+    const newRequest = request.clone({
+      headers: request.headers.set('Authorization', 'Bearer xxx'),
     });
 
-    return next.handle(newHeader);
+    return next.handle(newRequest);
   }
 }
 
