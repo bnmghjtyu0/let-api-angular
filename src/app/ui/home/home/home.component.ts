@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { FetchService } from 'src/app/services/fetch.service';
-import { MusicMatch, TrackList } from 'src/app/services/music-match.interface';
-import { Result, TheMovieDb } from 'src/app/services/themoviedb.interface';
-import { Column } from 'src/app/shared/components/table/common-table';
+import { FetchService } from '../../../services/fetch.service';
+import { MusicMatch, TrackList } from '../../../services/music-match.interface';
+import { Result, TheMovieDb } from '../../../services/themoviedb.interface';
+import { Column } from '../../../shared/components/table/common-table';
 
 /** 取得物件某 key 值的型別 */
 export type PickObj<T, U extends keyof T> = T[U];

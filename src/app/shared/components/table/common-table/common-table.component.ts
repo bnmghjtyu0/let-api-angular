@@ -6,7 +6,6 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { CommonTableDirective } from 'src/app/directives/common-table.directive';
 import { Column } from './common-table.interface';
 
 @Component({
