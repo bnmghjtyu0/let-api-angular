@@ -15,7 +15,8 @@ import { datePickerValidator } from './datepicker-validator';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import commonConstant from 'src/app/constants/common';
-import { ProfileFormGroup, ProfileFormValue } from 'src/app/models/form';
+import { ProfileFormGroup } from 'src/app/models/form';
+import { UserValidationService } from 'src/app/services/validation/user-validation.service';
 function NoNegativeNumbers(control: AbstractControl) {
   return control.value < 0 ? { negativeNumber: true } : null;
 }
@@ -65,18 +66,19 @@ export class FormComponent implements OnInit {
     private fb: FormBuilder,
     private roomOver18Validator: RoomOver18Validator
   ) {
-    this.register();
+    this.registerForm();
   }
 
   /**
    * 註冊表單
-   *
    */
-  register() {
+  registerForm() {
     this.profileForm = this.fb.group(
       {
         firstName: [null],
-        lastName: [null],
+        lastName: this.fb.control('', {
+          validators: [UserValidationService.lastNameValidator],
+        }),
         age: [null],
         room: [null, Validators.required],
         date: [null, [Validators.required, datePickerValidator()]],
@@ -95,17 +97,9 @@ export class FormComponent implements OnInit {
       },
       {
         validators: [this.roomOver18Validator.onlyAccessRoomsOver18(18)],
-        updateOn: 'blur',
+        updateOn: 'submit',
       }
     ) as ProfileFormGroup;
-
-    // 測試 FormGroup 是不是有做 deep copy
-    // this.profileForm.controls['dateTimePicker'].setValue({
-    //   startDate: new Date(2022, 2, 1, 10, 10),
-    //   endDate: new Date(2022, 10, 1, 10, 10),
-    // });
-    console.log(this.profileForm.value);
-    // console.log(commonConstant);
   }
 
   ngOnInit(): void {
@@ -121,27 +115,6 @@ export class FormComponent implements OnInit {
     });
   }
 
-  // public addValidatorsNested(form: FormGroup, validationArray: any) {
-  //   for (const key in form.controls) {
-  //     //第一層 group
-  //     if (!Object.keys(form.controls[key]).includes('controls')) {
-  //       form.controls[key].setValidators(validationArray[key]);
-  //       form.controls[key].updateValueAndValidity();
-  //       continue;
-  //     }
-  //     // 第二層 group
-  //     for (const key2 in (form.controls[key] as FormGroup).controls) {
-  //       (form.controls[key] as FormGroup).controls[key2].setValidators(
-  //         validationArray[key2]
-  //       );
-  //       (form.controls[key] as FormGroup).controls[
-  //         key2
-  //       ].updateValueAndValidity();
-  //     }
-  //   }
-  // }
-
-
   public getValues(form: FormGroup, validationArray: any) {
     for (const key in form.controls) {
       form.controls[key].setValidators(validationArray[key]);
@@ -149,30 +122,11 @@ export class FormComponent implements OnInit {
     }
   }
 
-  onReset() {
-    const { firstName, lastName, age, room } = this.form;
-    this.profileForm.reset();
-
-    // this.removeValidators(this.profileForm, [
-    //   'firstName',
-    //   'lastName',
-    //   'age',
-    //   'room',
-    //   'date',
-    //   'street',
-    //   'city',
-    //   'state',
-    //   'zip',
-    // ]);
+  onReset(formRef: FormGroupDirective) {
+    this.profileForm.reset(formRef);
   }
   onSearch() {
     console.log('search');
-    const { firstName, lastName, age, room } = this.form;
-    //dynamic validation
-    const validationType: any = {
-      firstName: [Validators.required],
-    };
-    // this.addValidatorsNested(this.profileForm, validationType);
   }
   onResetValidator() {
     console.log('resetValidator');
@@ -199,24 +153,8 @@ export class FormComponent implements OnInit {
     }
   }
   onSubmit() {
+    this.profileForm.markAllAsTouched();
     console.log(this.profileForm);
-    let { firstName, lastName, age, room } = this.profileForm.controls;
-    //移除全部的驗證規則
-    // this.removeValidators(this.profileForm, ['firstName', 'lastName', 'room']);
-    const validationType: any = {
-      firstName: [Validators.required],
-      lastName: [Validators.required],
-      age: [Validators.required],
-      room: [Validators.required],
-      date: [Validators.required, datePickerValidator()],
-      street: [Validators.required],
-      city: [Validators.required],
-      state: [Validators.required],
-      zip: [Validators.required],
-    };
-    //加入新的驗證規則
-    // this.addValidatorsNested(this.profileForm, validationType);
-
     // 驗證
     if (!this.profileForm.valid) {
       console.log('驗證失敗');

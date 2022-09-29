@@ -1,0 +1,11 @@
+<mat-form-field appearance="fill">
+  <mat-label>Last Name:</mat-label>
+  <input
+    matInput
+    [formControl]="$any(control)"
+    (change)="setInputValue($event)"
+  />
+  <mat-error>
+    <app-control-messages [control]="$any(control)"></app-control-messages>
+  </mat-error>
+</mat-form-field>

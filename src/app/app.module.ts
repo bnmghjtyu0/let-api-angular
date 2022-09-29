@@ -7,6 +7,7 @@ import { PagesModule } from './pages/page.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './material-modules';
 import { A11yNavbarComponent } from './components/a11y-navbar/a11y-navbar.component';
+import { LastNameInputComponent } from './shared/reactive-form-field/last-name-input/last-name-input.component';
 
 @NgModule({
   declarations: [AppComponent, A11yNavbarComponent],
