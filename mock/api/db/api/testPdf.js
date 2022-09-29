@@ -1,6 +1,7 @@
-var fs = require('fs')
-var pdfData = require("../base64/pdf");
-var tiffData = require("../base64/tiff");
+var fs = require("fs");
+
+var base64PDF = base64_encode(__dirname + "/../../../../mock/assets/demo.pdf");
+console.log(base64PDF)
 
 module.exports = (req, res) => {
   createStreamFile("pdf", res);
@@ -10,7 +11,7 @@ module.exports = (req, res) => {
     success: true,
     data: {
       fileName: "demo.pdf",
-      fileByteArray: pdfData,
+      fileByteArray: base64PDF,
     },
   };
 };
@@ -34,11 +35,10 @@ function createStreamFile(fileType, res) {
     fileExtension = "xlsx";
   }
   if (fileType === "tiff") {
-    fileMimeType =
-      "image/tiff";
+    fileMimeType = "image/tiff";
     fileExtension = "tiff";
   }
-  console.log(__dirname)
+  console.log(__dirname);
   var path = __dirname + "/../../../../mock/assets/demo." + fileExtension;
   var filename = "test_" + Date.now() + "." + fileExtension;
 
@@ -53,4 +53,22 @@ function createStreamFile(fileType, res) {
     console.log("File not found");
     res.send("File not found");
   }
+}
+
+// function to encode file data to base64 encoded string
+function base64_encode(file) {
+  // read binary data
+  var bitmap = fs.readFileSync(file);
+  // convert binary data to base64 encoded string
+  return new Buffer(bitmap).toString("base64");
+}
+
+function _base64ToArrayBuffer(base64) {
+  var binary_string = window.atob(base64);
+  var len = binary_string.length;
+  var bytes = new Uint8Array(len);
+  for (var i = 0; i < len; i++) {
+    bytes[i] = binary_string.charCodeAt(i);
+  }
+  return bytes.buffer;
 }
