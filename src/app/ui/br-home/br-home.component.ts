@@ -5,11 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './br-home.component.html',
   styleUrls: ['./br-home.component.scss']
 })
-export class BrHomeComponent implements OnInit {
+export class BrHomeComponent  {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

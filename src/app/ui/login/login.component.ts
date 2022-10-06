@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -6,12 +7,18 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
-  constructor(private router: Router) {}
+export class LoginComponent {
+  constructor(private router: Router, private authService: AuthService) {}
 
-  ngOnInit(): void {}
+  gotoBR() {
+    this.authService.setAuthorized('BR');
+    sessionStorage.setItem('auth', 'BR');
+    this.router.navigate(['/house/agentMember']);
+  }
 
-  gotoPage() {
-    this.router.navigate(['/home']);
+  gotoBK() {
+    this.authService.setAuthorized('BK');
+    window.sessionStorage.setItem('auth', 'BK');
+    this.router.navigate(['/house/agentMember']);
   }
 }

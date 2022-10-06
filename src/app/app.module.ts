@@ -7,15 +7,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrHomeComponent } from './ui/br-home/br-home.component';
 import { BkHomeComponent } from './ui/bk-home/bk-home.component';
 import { LoginComponent } from './ui/login/login.component';
+import { AuthService } from './shared/services/auth.service';
+import { Routes, ROUTES } from '@angular/router';
 
 @NgModule({
-  declarations: [AppComponent, BrHomeComponent, BkHomeComponent, LoginComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
+  declarations: [
+    AppComponent,
+    BrHomeComponent,
+    BkHomeComponent,
+    LoginComponent,
   ],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
