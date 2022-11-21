@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   title = 'let-api-angular';
-  initialDate = new Date(2017, 0, 1);
+
   form!: FormGroup;
   value = '';
 
@@ -20,10 +20,12 @@ export class AppComponent implements OnInit {
 
   initForm() {
     this.form = this.fb.group({
-      startDate: this.fb.control(null, [Validators.required]),
+      startDate: this.fb.control(new Date('1922-01-01'), [Validators.required]),
+      endDate: this.fb.control(new Date(), [Validators.required]),
     });
 
-    this.form.controls.startDate
-      .valueChanges.subscribe((value: any) => (this.value = value));
+    this.form.controls.startDate.valueChanges.subscribe(
+      (value: any) => (this.value = value)
+    );
   }
 }

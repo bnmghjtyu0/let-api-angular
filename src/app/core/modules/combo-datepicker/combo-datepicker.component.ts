@@ -51,7 +51,7 @@ export class ComboDatepickerComponent
   @Input() timezone: any;
   @Input() placeholder: any;
   @Input() ngRequired: any;
-  @Input() disabled: any;
+  @Input() disabled: any
   @Input() visible: any = [true, true, true];
 
   public selects: any = {

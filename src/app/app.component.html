@@ -1,7 +1,21 @@
 <form *ngIf="form" novalidate [formGroup]="form">
   <ngx-combo-datepicker
     formControlName="startDate"
-    [date]="initialDate"
+    order="ymd"
+    minDate="1922-01-01"
+    maxDate="2022-12-31"
+    months="一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月"
+    [attrsDate]="{ class: 'form-control', style: 'color: blue' }"
+    [attrsMonth]="{ class: 'form-control' }"
+    [attrsYear]="{ class: 'form-control' }"
+    [disabled]="$any([false, true, false])"
+  ></ngx-combo-datepicker>
+
+  <br />
+
+  <ngx-combo-datepicker
+    formControlName="endDate"
+    [date]="'2022-12-31'"
     order="ymd"
     minDate="1922-01-01"
     maxDate="2022-12-31"
