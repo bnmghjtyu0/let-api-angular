@@ -1,0 +1,13 @@
+<ng-container *ngFor="let type of order">
+  <select *ngIf="selects[type].visible"
+          [(ngModel)]="selects[type].value"
+          (change)="onChange()"
+          [disabled]="selects[type].disabled"
+          customAttrs [attrs]="selects[type].attrs">
+    <option *ngFor="let option of selects[type].options"
+            [ngValue]="option.value"
+            [disabled]="option.disabled">
+      {{ option.name }}
+    </option>
+  </select>
+</ng-container>

@@ -4,8 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ComboDatepickerModule } from 'ngx-combo-datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComboDatepickerModule } from './core/modules/combo-datepicker/combo-datepicker.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
