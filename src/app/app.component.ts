@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
-
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
+import { FormBuilderTypeSafe } from 'angular-typesafe-reactive-forms-helper';
 
 type ProfileFormModel = {
   firstName?: string;
@@ -14,16 +19,15 @@ type ProfileFormModel = {
   aliases?: { id: number }[];
 };
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  profileForm = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: [''],
+  profileForm = this.fbTypeSafe.group<ProfileFormModel>({
+    firstName: this.fb.control(''),
+    lastName: this.fb.control(''),
     address: this.fb.group({
       street: [0],
       city: [''],
@@ -31,27 +35,25 @@ export class AppComponent {
       zip: [''],
     }),
     aliases: this.fb.array([this.fb.control('')]),
-  })
-
-
+  });
 
   get aliases() {
     return this.profileForm.get('aliases') as FormArray;
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private fbTypeSafe: FormBuilderTypeSafe
+  ) {}
 
   updateProfile() {
-    const value: ProfileFormModel = {
+    this.aliases.push(this.makeAliase('666'));
+    this.profileForm.patchValue({
       firstName: 'Nancy',
       address: {
         street: 123,
       },
-    };
-
-    this.aliases.push(this.makeAliase('666'));
-
-    this.profileForm.patchValue(value);
+    });
   }
 
   makeAliase(id: string) {
