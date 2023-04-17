@@ -1,0 +1,45 @@
+<nav class="custom-pagination-wrap mt-5">
+  <ul class="pagination border-0">
+    <button class="page-link border-0" (click)="firstPage()" [disabled]="!hasPreviousPage()">
+      第一頁
+    </button>
+    <li class="page-item">
+      <button
+        class="page-link border-0"
+        (click)="pageIndex > 0 && previousPage()"
+        [disabled]="!hasPreviousPage()"
+      >
+        上一頁
+      </button>
+    </li>
+    <!-- 分頁-->
+    <ng-container *ngFor="let page of getPageNumbers()">
+      <!-- 分頁左邊的 ... -->
+      <li class="page-item" *ngIf="isString(page) && page === LEFT_PAGE">
+        <button class="page-link number border-0">...</button>
+      </li>
+      <!-- 分頁數字 -->
+      <li class="page-item" *ngIf="isNumber(page)" [class.active]="page - 1 === pageIndex">
+        <button class="page-link number border-0" (click)="setPage(page - 1)">
+          {{ page }}
+        </button>
+      </li>
+      <!-- 分頁右邊的 ... -->
+      <li class="page-item" *ngIf="isString(page) && page === RIGHT_PAGE">
+        <button class="page-link number border-0">...</button>
+      </li>
+    </ng-container>
+
+    <li class="page-item">
+      <button class="page-link border-0" (click)="nextPage()" [disabled]="!hasNextPage()">
+        下一頁
+      </button>
+    </li>
+
+    <li class="page-item">
+      <button class="page-link border-0" (click)="lastPage()" [disabled]="!hasNextPage()">
+        最末頁
+      </button>
+    </li>
+  </ul>
+</nav>

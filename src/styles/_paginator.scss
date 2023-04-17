@@ -1,0 +1,44 @@
+$hover-color: #f3f3f3;
+$active-color: #d7d7d7;
+
+/* paginator */
+.page-item {
+  &.active {
+    .page-link {
+      background-color: $active-color;
+      color: white;
+      &:hover {
+        background-color: $active-color;
+      }
+    }
+  }
+}
+
+.page-link {
+  font-size: 1.5em;
+  color: black;
+  &:hover {
+    color: black;
+    text-decoration: none;
+    background-color: $hover-color;
+    &:disabled {
+      color: $active-color;
+      background: none !important;
+    }
+  }
+
+  &.number {
+    color: black;
+    &:hover {
+      background-color: $hover-color;
+    }
+  }
+  &:focus {
+    box-shadow: none;
+  }
+
+  &:disabled {
+    color: $active-color;
+    background-color: none !important;
+  }
+}
