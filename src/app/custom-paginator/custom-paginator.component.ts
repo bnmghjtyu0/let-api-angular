@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -19,6 +20,8 @@ import isNumber from 'lodash-es/isNumber';
 import isString from 'lodash-es/isString';
 import { Pages } from './custom-paginator.model';
 import { HttpClient } from '@angular/common/http';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 /** 客製化表格分頁功能 (MatPaginator) */
 @Component({
@@ -39,14 +42,36 @@ export class CustomPaginatorComponent extends MatPaginator {
   LEFT_PAGE = 'LEFT';
   /** 右邊的 ... */
   RIGHT_PAGE = 'RIGHT';
-
+  /** current page number */
+  currentPage = 0;
+  /**  total row number */
+  totalCount = 0;
   /** your data array */
   @Input() data: any[] = [];
-  /** current page number */
-  @Input() currentPage = 0;
-  /**  total row number */
-  @Input() totalCount = 0;
 
+  /**
+   * 調用 API
+   *
+   * @param url
+   * @param cb
+   * @returns
+   */
+  remoteData$ = <T, F>(
+    url: string,
+    cb: (data: T) => { data: F; page: number; pages: number }
+  ): Observable<F> => {
+    return this.http
+      .get<T>(`${url}?limit=10&page=${this.pageIndex + 1}&offset=1`)
+      .pipe(
+        map((apiData: T) => {
+          const { data, pages, page } = cb(apiData);
+          this.data = data as any;
+          this.totalCount = pages;
+          this.currentPage = page;
+          return data;
+        })
+      );
+  };
 
   /** 客製化表格分頁功能-建構子 */
   constructor(

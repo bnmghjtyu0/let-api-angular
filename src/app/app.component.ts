@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { of } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { CustomPaginatorComponent } from './custom-paginator/custom-paginator.component';
 
 @Component({
@@ -9,49 +9,30 @@ import { CustomPaginatorComponent } from './custom-paginator/custom-paginator.co
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   @ViewChild('paginator') paginator!: CustomPaginatorComponent;
   title = 'let-api-angular';
   tableData: Datum[] = [];
-  paginatorConfig = {
-    totalCount: 0,
-    currentPage: 0,
-  };
-
-  constructor(private http: HttpClient) {}
 
   ngAfterViewInit() {
     this.paginator.page
       .pipe(
         startWith({}),
-        switchMap(() => {
-          const obj = {
-            limit: 10,
-            page: this.paginator.pageIndex + 1,
-            offset: 1,
-          };
-
-          const entries: any = Object.entries(obj);
-          const params = new URLSearchParams(entries).toString();
-
-          return this.http
-            .get<CategoryRes>(
-              `https://musiclight-pochange.tw/api/youtube/category?${params}`
-            )
-            .pipe(catchError(() => of(null)));
-        }),
-        map((empData) => {
-          if (empData == null) return [];
-          this.tableData = empData.retVal.data;
-          this.paginatorConfig.totalCount = empData.retVal.paging.pages;
-          this.paginatorConfig.currentPage = empData.retVal.paging.page;
-          return empData.retVal.data;
+        switchMap(() =>
+          this.paginator.remoteData$<CategoryRes, Datum[]>(
+            'https://musiclight-pochange.tw/api/youtube/category',
+            (res) => ({
+              page: res.retVal.paging.page,
+              pages: res.retVal.paging.pages,
+              data: res.retVal.data,
+            })
+          )
+        ),
+        tap((data) => {
+          this.tableData = data;
         })
       )
-      .subscribe((empData) => {
-        console.log(empData);
-        // this.dataSource = new MatTableDataSource(this.EmpData);
-      });
+      .subscribe();
   }
 }
 
